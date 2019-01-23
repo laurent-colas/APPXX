@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+void MaFonctionASM();
+
+int main(void) {
+
+    int res = 0;
+    int param1 = 3;
+    int param2 = 4;
+
+   MaFonctionASM();
+
+    printf("Le résultat de %d + %d est %d", param1, param2, res);
+
+
+    return 0;
+}

@@ -1,0 +1,33 @@
+///*
+// * main.c
+// */
+///* Hello World program */
+//#include <stdio.h>
+//int a;
+//main()
+//{
+//    a = 10;
+//    printf("Hello World \n");
+//    printf("%d",a);
+//
+//}
+/*
+ * main.c
+ */
+#include <stdio.h>
+
+extern int MaFonctionASM(int p1, int p2);
+
+int main(void) {
+
+    int res = 0;
+    int param1 = 3;
+    int param2 = 4;
+
+    res = MaFonctionASM(param1, param2);
+
+    printf("Le résultat de %d + %d est %d", param1, param2, res);
+
+
+    return 0;
+}

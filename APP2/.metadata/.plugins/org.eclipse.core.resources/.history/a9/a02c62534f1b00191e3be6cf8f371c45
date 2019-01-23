@@ -1,0 +1,14 @@
+/*
+ * main.c
+ */
+#include <fonctionsC.h>
+int Liste_Choix[3] = {0,0,0};
+
+
+int main(void) {
+    ObtenirType(Liste_Choix);
+    ObtenirFormat(Liste_Choix+1);
+    ObtenirOperation(Liste_Choix+2);
+    //AnalyserListe();
+    return 0;
+}

@@ -1,0 +1,58 @@
+#ifndef CFUNCTIONS_H_
+#define CFUNCTIONS_H_
+
+#include <stdio.h>
+#include <math.h>
+
+// Entete des fonctions
+
+void ObtenirType(int*);
+void ObtenirFormat(int*);
+void ObtenirOperation(int*);
+
+int ConvertirListe(int*);
+void ChoisirOperandesXXX(ZZZ)
+void AnalyserListe(int*, );
+
+// Declaration des fonctions
+
+void ObtenirType(int *Type)
+{
+    printf("Quel est le type de donnée?\n"
+            "Entier non signé - 1\n"
+            "Entier signé - 2\n"
+            "Fractionnaire - 3\n"
+            "Flottant - 4\n");
+    scanf("%d", Type);
+    printf("Vous avez rentrez %d. \n\n", *Type);
+}
+
+void ObtenirFormat(int *Format)
+{
+    printf("Quel est le format de donnée?\n"
+            "16 bits - 1\n"
+            "32 bits - 2\n"
+            "40 bits - 3\n"
+            "64 bits - 4\n");
+    scanf("%d", Format);
+    printf("Vous avez rentrez %d. \n\n", *Format);
+}
+
+void ObtenirOperation(int *Operation)
+{
+    printf("Quel est l'opération?\n"
+            "Addition (+) - 1\n"
+            "Soustraction (-) - 2\n"
+            "Multiplication (x) - 3\n"
+            "Division (:) - 4\n"
+            "Chiffrer - 5\n");
+    scanf("%d", Operation);
+    printf("Vous avez rentrez %d. \n\n", *Operation);
+}
+
+int ConvertirListe(int *Liste) {
+    return Liste[0] * 10 + Liste[1];
+}
+
+
+#endif /* CFUNCTIONS_H_ */

@@ -1,0 +1,129 @@
+	.def _DivIncrementation
+	.def _DivSubc
+	.def _DivFlottant32bits
+
+	.data
+
+
+	.text
+
+_DivIncrementation
+	.asmfunc
+
+		;boucle avec un compteur(exemple 8*6, on additionne8+8=16 16+8=24..... On reproduit l'opération 6foisS)
+    LDW *A4++,A5
+    NOP 5
+    LDW *A4++,A6
+    NOP 5
+    ZERO A7
+
+	CMPLTU A5,A6,A1
+	MV A7,A4
+	[A1] B end_boucle_division
+    NOP 5
+
+boucle_division:
+	;on ajoute une comparaison si on a A6>A5 on sort de la boucle
+	CMPEQ A5,A6,A1
+	NOP 5
+	CMPGTU A5,A6,A2
+	NOP 5
+	AND A1,A2,A1
+	NOP 5
+	[A1] B end_boucle_division
+	CMPLTU A5,A6,A2
+	[A2] B end_boucle_division
+    SUB A5,A6,A5
+    ADD A7,1,A7
+    MV A5,A1
+    NOP 5
+    MV A7,A4
+    NOP 5
+    [A1] B boucle_division
+    NOP 5
+end_boucle_division:
+    STW A5, *A6--
+
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc
+
+
+_DivSubc
+    .asmfunc
+
+    LDW *A4++,A5
+    NOP 5
+    LDW *A4++,A6
+    NOP 5
+	ZERO A0
+
+    CMPGTU A6,A5,A1
+    NOP 5
+    [A1] B Return_Zero
+	CMPEQ A0,A5,A1
+	NOP 5
+	[A1] B Return_Zero
+	CMPEQ A0,A6,A1
+	NOP 5
+	[A1] B Return_moins_un
+
+	LMBD 1,A6,A0
+	LMBD 1,A5,A2
+	SUBU A0,A2,A9:A8
+	SHL A6,A8,A6
+
+	;MV A8,A1
+	MVK 0,A10
+
+BoucleFor:
+	SUBC A5,A6,A5
+	ADD A10,1,A10
+	;SUB A1,1,A1
+
+	CMPGTU A8,A10,A1
+	NOP 5
+	[A1] B BoucleFor
+	NOP 5
+	CMPEQ A8,A10,A1
+	[A1] B BoucleFor
+	NOP 5
+
+	B Return_Fin
+
+Return_Zero:
+	ZERO A4
+	NOP 5
+	B FinSubC
+	NOP 5
+
+Return_Fin:
+	ADD A8,1,A8
+	MVK 32, A0
+	;ADD A8,B1,B1
+	SUBU A0,A8,A9:A8
+	SHL A5,A8,A5
+	SHR A5,A8,A4
+	NOP 5
+	B FinSubC
+	NOP 5
+
+Return_moins_un:
+	MVK  -1,A4
+	NOP 5
+	B FinSubC
+	NOP 5
+
+FinSubC:
+    B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+	NOP 5
+    .endasmfunc
+
+
+
+_DivFlottant32bits
+	.asmfunc
+
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc

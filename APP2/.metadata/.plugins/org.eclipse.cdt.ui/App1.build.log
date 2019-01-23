@@ -1,0 +1,17 @@
+
+**** Build of configuration Debug for project App1 ****
+
+"C:\\ti\\ccsv7\\utils\\bin\\gmake" -k -j 4 all -O 
+'Building file: ../source/c/App1.c'
+'Invoking: C6000 Compiler'
+"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/bin/cl6x" -mv6700 --abi=coffabi -g --include_path="C:/ti/ccsv7/tools/compiler/c6000_7.4.20/include" --include_path="C:/ti/ccsv7/ccs_base/C6xCSL/include" --include_path="C:/ti/dsk6713/include" --define=c6701 --define=CHIP_6713 --diag_warning=225 --diag_wrap=off --display_error_number --mem_model:const=far --mem_model:data=far --preproc_with_compile --preproc_dependency="source/c/App1.d" --obj_directory="source/c"  "../source/c/App1.c"
+
+>> Compilation failure
+source/c/subdir_rules.mk:9: recipe for target 'source/c/App1.obj' failed
+"../source/c/App1.c", line 1: fatal error #5: could not open source file ".../fonctionC.h"
+1 fatal error detected in the compilation of "../source/c/App1.c".
+Compilation terminated.
+gmake: *** [source/c/App1.obj] Error 1
+gmake: Target 'all' not remade because of errors.
+
+**** Build Finished ****

@@ -1,0 +1,41 @@
+
+
+	.def _EncrypterDonnees
+
+
+
+
+
+_EncrypterDonnees
+	.asmfunc
+
+	MVK 0xFFFFFFFF, A1
+
+	MV A4, A7
+
+	MV A4, A8
+	MV B4, B0
+	MVK 8, B1
+
+BoucleEncrypt:
+	SUB B0, 1, B0
+	;MV A8, A7
+	MV A8, A4
+	MVK 8, B1
+
+BoucleNb:
+	LDW *A7, A2
+	NOP 4
+	XOR A2, A1, A2
+	STW A2, *A7++
+	SUB B1, 1, B1
+	[B1] B BoucleNb
+	NOP 5
+
+	[B0] B BoucleEncrypt
+	NOP 5
+
+	MV A8, A4
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc

@@ -1,0 +1,25 @@
+//org.eclipse.ui.commands/state/org.eclipse.ui.navigator.resources.nested.changeProjectPresentation/org.eclipse.ui.commands.radioState=false
+ColorsAndFontsPreferencePage.expandedCategories=Torg.eclipse.ui.workbenchMisc\tTorg.eclipse.cdt.ui.presentation\tTorg.eclipse.cdt.ui.CEditor.presentation\tTorg.eclipse.ui.presentation.default
+ColorsAndFontsPreferencePage.selectedElement=Forg.eclipse.jface.bannerfont
+ENABLED_DECORATORS=com.ti.ccstudio.system.setup.ui.targetConfigDecorator\:true,org.eclipse.rtsc.xdctools.model.ui.editors.annotations.ConfigDecorator\:true,com.ti.ccstudio.debug.ui.launch.selection.decorator\:true,org.eclipse.cdt.ui.indexedFiles\:false,org.eclipse.cdt.managedbuilder.ui.excludedFile\:true,org.eclipse.cdt.managedbuilder.ui.includeFolder\:true,org.eclipse.cdt.internal.ui.CustomBuildSettingsDecorator\:true,org.eclipse.egit.ui.internal.decorators.GitLightweightDecorator\:true,org.eclipse.rse.core.virtualobject.decorator\:true,org.eclipse.rse.core.binary.executable.decorator\:true,org.eclipse.rse.core.script.executable.decorator\:true,org.eclipse.rse.core.java.executable.decorator\:true,org.eclipse.rse.core.library.decorator\:true,org.eclipse.rse.core.link.decorator\:true,org.eclipse.rse.subsystems.error.decorator\:true,org.eclipse.ui.LinkedResourceDecorator\:true,org.eclipse.ui.SymlinkDecorator\:true,org.eclipse.ui.VirtualResourceDecorator\:true,org.eclipse.ui.ContentTypeDecorator\:true,org.eclipse.ui.ResourceFilterDecorator\:false,
+REMOTE_COMMANDS_VIEW_FONT=1|Consolas|14.0|0|WINDOWS|1|-28|0|0|0|400|0|0|0|0|3|2|1|49|Consolas;
+UIActivities.com.ti.ccstudio.activities.RSEActivity=true
+com.ti.ccstudio.memory.ui.view.rendering.fontText=1|Consolas|14.0|0|WINDOWS|1|-28|0|0|0|400|0|0|0|0|3|2|1|49|Consolas;
+eclipse.preferences.version=1
+org.eclipse.cdt.debug.ui.ModulesDetailPaneFont=1|Consolas|14.0|0|WINDOWS|1|-28|0|0|0|400|0|0|0|0|3|2|1|49|Consolas;
+org.eclipse.cdt.internal.ui.compare.AsmMergeViewer=1|Segoe UI|14.0|0|WINDOWS|1|-28|0|0|0|400|0|0|0|0|3|2|1|34|Segoe UI;
+org.eclipse.cdt.internal.ui.compare.CMergeViewer=1|Segoe UI|14.0|0|WINDOWS|1|-28|0|0|0|400|0|0|0|0|3|2|1|34|Segoe UI;
+org.eclipse.cdt.make.internal.ui.compare.MakefileMergeViewer=1|Consolas|14.0|0|WINDOWS|1|-28|0|0|0|400|0|0|0|0|3|2|1|49|Consolas;
+org.eclipse.cdt.ui.buildconsole.ConsoleFont=1|Consolas|14.0|0|WINDOWS|1|-28|0|0|0|400|0|0|0|0|3|2|1|49|Consolas;
+org.eclipse.cdt.ui.editors.textfont=1|Segoe UI|14.0|0|WINDOWS|1|-28|0|0|0|400|0|0|0|0|3|2|1|34|Segoe UI;
+org.eclipse.compare.contentmergeviewer.TextMergeViewer=1|Consolas|14.0|0|WINDOWS|1|-28|0|0|0|400|0|0|0|0|3|2|1|49|Consolas;
+org.eclipse.debug.ui.DetailPaneFont=1|Consolas|14.0|0|WINDOWS|1|-28|0|0|0|400|0|0|0|0|3|2|1|49|Consolas;
+org.eclipse.debug.ui.MemoryViewTableFont=1|Consolas|14.0|0|WINDOWS|1|-28|0|0|0|400|0|0|0|0|3|2|1|49|Consolas;
+org.eclipse.debug.ui.consoleFont=1|Consolas|14.0|0|WINDOWS|1|-28|0|0|0|400|0|0|0|0|3|2|1|49|Consolas;
+org.eclipse.egit.ui.CommitMessageEditorFont=1|Consolas|14.0|0|WINDOWS|1|-28|0|0|0|400|0|0|0|0|3|2|1|49|Consolas;
+org.eclipse.egit.ui.CommitMessageFont=1|Consolas|14.0|0|WINDOWS|1|-28|0|0|0|400|0|0|0|0|3|2|1|49|Consolas;
+org.eclipse.egit.ui.DiffHeadlineFont=1|Consolas|14.0|0|WINDOWS|1|-28|0|0|0|400|0|0|0|0|3|2|1|49|Consolas;
+org.eclipse.jface.bannerfont=1|Segoe UI|12.0|1|WINDOWS|1|-24|0|0|0|700|0|0|0|0|3|2|1|34|Segoe UI;
+org.eclipse.jface.textfont=1|Consolas|14.0|0|WINDOWS|1|-28|0|0|0|400|0|0|0|0|3|2|1|49|Consolas;
+org.eclipse.ui.commands=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<org.eclipse.ui.commands/>
+terminal.views.view.font.definition=1|Consolas|14.0|0|WINDOWS|1|-28|0|0|0|400|0|0|0|0|3|2|1|49|Consolas;

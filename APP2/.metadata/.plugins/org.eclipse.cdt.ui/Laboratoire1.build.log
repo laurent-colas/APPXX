@@ -1,0 +1,17 @@
+
+**** Build of configuration Debug for project Laboratoire1 ****
+
+"C:\\ti\\ccsv7\\utils\\bin\\gmake" -k -j 4 all -O 
+'Building file: ../source/asm/minimal_assemble.asm'
+'Invoking: C6000 Compiler'
+"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/bin/cl6x" -mv6700 --abi=coffabi -g --include_path="C:/ti/ccsv7/tools/compiler/c6000_7.4.20/include" --include_path="C:/ti/ccsv7/ccs_base/C6xCSL/include" --include_path="C:/ti/dsk6713/include" --define=c6701 --define=CHIP_6713 --diag_warning=225 --diag_wrap=off --display_error_number --mem_model:const=far --mem_model:data=far --preproc_with_compile --preproc_dependency="source/asm/minimal_assemble.d" --obj_directory="source/asm"  "../source/asm/minimal_assemble.asm"
+'Finished building: ../source/asm/minimal_assemble.asm'
+' '
+'Building target: Laboratoire1.out'
+'Invoking: C6000 Linker'
+"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/bin/cl6x" -mv6700 --abi=coffabi -g --define=c6701 --define=CHIP_6713 --diag_warning=225 --diag_wrap=off --display_error_number --mem_model:const=far --mem_model:data=far -z -m"Laboratoire1.map" --stack_size=0x1000 --heap_size=0x1000 -i"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/lib" -i"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/include" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="Laboratoire1_linkInfo.xml" --rom_model -o "Laboratoire1.out" "./source/asm/minimal_assemble.obj" "./source/c/main.obj"  -llibc.a -l"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/lib/rts6700.lib" -l"C:/ti/ccsv7/ccs_base/C6xCSL/lib_3x/csl6713.lib" -l"C:/ti/dsk6713/lib/dsk6713bsl.lib" 
+<Linking>
+'Finished building target: Laboratoire1.out'
+' '
+
+**** Build Finished ****

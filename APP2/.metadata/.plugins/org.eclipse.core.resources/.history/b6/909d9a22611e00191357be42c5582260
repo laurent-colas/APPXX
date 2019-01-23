@@ -1,0 +1,50 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+SHELL = cmd.exe
+
+# Add inputs and outputs from these tool invocations to the build variables 
+ASM_SRCS += \
+../source/asm/addition_func.asm \
+../source/asm/chiffrage_func.asm \
+../source/asm/divisions_func.asm \
+../source/asm/multiplication_func.asm \
+../source/asm/soustraction_func.asm 
+
+OBJS += \
+./source/asm/addition_func.obj \
+./source/asm/chiffrage_func.obj \
+./source/asm/divisions_func.obj \
+./source/asm/multiplication_func.obj \
+./source/asm/soustraction_func.obj 
+
+ASM_DEPS += \
+./source/asm/addition_func.d \
+./source/asm/chiffrage_func.d \
+./source/asm/divisions_func.d \
+./source/asm/multiplication_func.d \
+./source/asm/soustraction_func.d 
+
+OBJS__QUOTED += \
+"source\asm\addition_func.obj" \
+"source\asm\chiffrage_func.obj" \
+"source\asm\divisions_func.obj" \
+"source\asm\multiplication_func.obj" \
+"source\asm\soustraction_func.obj" 
+
+ASM_DEPS__QUOTED += \
+"source\asm\addition_func.d" \
+"source\asm\chiffrage_func.d" \
+"source\asm\divisions_func.d" \
+"source\asm\multiplication_func.d" \
+"source\asm\soustraction_func.d" 
+
+ASM_SRCS__QUOTED += \
+"../source/asm/addition_func.asm" \
+"../source/asm/chiffrage_func.asm" \
+"../source/asm/divisions_func.asm" \
+"../source/asm/multiplication_func.asm" \
+"../source/asm/soustraction_func.asm" 
+
+

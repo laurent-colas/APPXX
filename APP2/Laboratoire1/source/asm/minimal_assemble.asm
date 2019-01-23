@@ -1,0 +1,161 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;; Les directives ;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	.def _MaFonctionASM
+	.def _MaSousASM
+	.def _AdditionSimple
+	.def _AdditionTableau
+	.def _DemoTamponCirculaire
+
+
+	.data
+vB .byte 4,3
+vH .half 1,2
+vW .int 0x12345678,0xABCDEFAB
+
+vDW .double 1,2
+val .int 0
+vtest .int	0x7FFFFFFF,0x00000001
+vall .long 0x7FFFFFFF,0x00000001
+pipo .float 0.5
+
+
+configTamponA7 .set 0x00030040
+
+	.text
+
+
+_MaFonctionASM
+    .asmfunc
+
+	MVKL vW,A1
+	MVKH vW,A1
+
+	LDB *A1++,A2
+	NOP 5
+	LDB *A1++,A2
+	NOP 5
+	LDH *A1++,A2
+	NOP 5
+	LDW *A1++,A2
+	NOP 5
+	MVK 0xFFFF8765,A2
+
+	STB A2,*--A1
+	STW A2, *A1
+
+	;MVKL 0x12345678, A1
+	;MVKH 0x12345678, A1
+
+    B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+
+    .endasmfunc
+
+
+
+_AdditionSimple
+	.asmfunc
+	ADD A4,B4,A4
+    B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+
+    .endasmfunc
+
+
+_AdditionTableau
+	.asmfunc
+
+	LDW *A4++, A1
+
+	SUB B4, 1, B0
+	NOP 4
+
+BoucleAddition:
+	LDW *A4++, A2
+	SUB B0, 1, B0
+	NOP 5
+	ADD A1, A2, A1
+
+	[B0]  B BoucleAddition
+	NOP 5
+
+    B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+
+	.endasmfunc
+
+
+
+
+_MaSousASM
+    .asmfunc
+
+	MVK 0x01, A1
+
+	MVKL vtest, A5
+	MVKH vtest, A5
+
+	MVKL vall, A8
+	MVKH vall, A8
+
+	LDW *A5++, A2
+	NOP 5
+	LDW *A5++, A3
+	NOP 5
+
+	LDW *A8++, A9
+	NOP 5
+	LDW *A8++, A10
+	NOP 5
+
+	SADD A2,A3,A7
+	;MVC *A1,B5
+
+	SADD A9,A10,A11
+
+	ADD A2,A3,A6
+	;ADDU B1,B4,B7
+	SUB A2,A3,A8
+	;SUBU B4,B1,B9
+
+    B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+
+    .endasmfunc
+
+
+_DemoTamponCirculaire
+	.asmfunc
+	MVKL configTamponA7, B5
+	MVKH configTamponA7, B5
+	MVC B5, AMR
+
+	MV A4, A7
+
+	LDW *A7++, A1
+
+	SUB B4, 1, B0
+	NOP 4
+
+BoucleTampon:
+	LDW *A7++, A2
+	NOP 4
+	ADD A1, A2, A1
+
+	SUB B0, 1, B0
+	[B0] B BoucleTampon
+
+	NOP 5
+	ADD A1, A2, A1
+
+
+	NOP 5
+
+    B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+
+
+	.endasmfunc
+
+

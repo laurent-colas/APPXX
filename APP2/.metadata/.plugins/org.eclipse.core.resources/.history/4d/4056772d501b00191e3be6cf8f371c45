@@ -1,0 +1,19 @@
+/*
+ * main.c
+ */
+#include "../fonctionsC.h"
+#include <stdio.h>
+
+int Liste_Choix[3] = {0,0,0};
+
+
+int main(void) {
+    int test;
+    ObtenirType(Liste_Choix);
+    ObtenirFormat(Liste_Choix+1);
+    ObtenirOperation(Liste_Choix+2);
+    test = int ConvertirListe(Liste_Choix) ;
+
+    //AnalyserListe();
+    return 0;
+}

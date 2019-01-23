@@ -1,0 +1,30 @@
+/*
+ * main.c
+ */
+#include "../fonctionsC.h"
+#include <stdio.h>
+
+int Liste_Choix[3] = {0,0,0};
+
+unsigned int TabIntNoS[2] = {0,0};
+signed int TabIntS[2] = {0,0};
+int TabInt[2] = {0,0};
+float TabFloat[2] = {0,0};
+double TabDouble[2] = {0,0};
+unsigned long TabLongNoS[2] = {0,0};
+
+short TabShortS[2] = {0, 0}; // un short défini une variable de 16 bit.
+
+
+
+int main(void) {
+    ObtenirType(Liste_Choix);
+    ObtenirFormat(Liste_Choix+1);
+    ObtenirOperation(Liste_Choix+2);
+    //test = ConvertirListe(Liste_Choix) ;
+    AnalyserListe(Liste_Choix, TabIntNoS, TabIntS, TabInt, TabFloat, TabDouble, TabLongNoS);
+
+
+    //AnalyserListe();
+    return 0;
+}

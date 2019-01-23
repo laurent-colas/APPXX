@@ -1,0 +1,45 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;; Les directives ;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	.def _MaFonctionASM
+
+	.data
+vB .byte 4,3
+vH .half 1,2
+vW .int 0x12345678,0xABCDEFAB
+vDW .double 1,2
+val .int 0
+vall .long 0,0
+pipo .float 0.5
+
+
+	.text
+
+
+_MaFonctionASM
+    .asmfunc
+
+	MVKL	vW,A1
+	MVKH 	vW,A1
+	LDB *A1++,A2
+	NOP 5
+	LDB *A1++,A2
+	NOP 5
+	LDH *A1++,A2
+	NOP 5
+	LDW *A1++,A2
+	NOP 5
+	MVK 0xFFFF8765,A2
+
+	STB A2,*--A1
+
+	;MVKL 0x12345678, A1
+	;MVKH 0x12345678, A1
+
+    B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+
+    .endasmfunc
+
+
+

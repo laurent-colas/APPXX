@@ -1,0 +1,26 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+SHELL = cmd.exe
+
+# Add inputs and outputs from these tool invocations to the build variables 
+ASM_SRCS += \
+../source/asm/ASMfunc.asm 
+
+OBJS += \
+./source/asm/ASMfunc.obj 
+
+ASM_DEPS += \
+./source/asm/ASMfunc.d 
+
+OBJS__QUOTED += \
+"source\asm\ASMfunc.obj" 
+
+ASM_DEPS__QUOTED += \
+"source\asm\ASMfunc.d" 
+
+ASM_SRCS__QUOTED += \
+"../source/asm/ASMfunc.asm" 
+
+

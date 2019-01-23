@@ -1,0 +1,60 @@
+
+	.def _SubEntierNonSigne32bits
+	.def _SubEntierSigne32bits
+	.def _SubFlottant64bits
+
+
+	.data
+
+
+	.text
+
+_SubEntierNonSigne32bits
+	.asmfunc
+
+	LDW *A4++, A1
+	NOP 4
+	LDW *A4++, A2
+	NOP 4
+
+	SUBU A1, A2, A5:A4
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc
+
+
+
+_SubEntierSigne32bits
+	.asmfunc
+
+	LDW *A4++, A1
+	NOP 4
+	LDW *A4++, A2
+	NOP 4
+
+	SUB A1, A2, A4
+
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc
+
+
+_SubFlottant64bits
+	.asmfunc
+
+	LDW *A4++, A2
+	NOP 4
+	LDW *A4++, A3
+	NOP 4
+
+	LDW *A4++, B0
+	NOP 4
+	LDW *A4++, B1
+	NOP 4
+
+	SUBDP  A3:A2, B1:B0, A5:A4
+	NOP 6
+
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc

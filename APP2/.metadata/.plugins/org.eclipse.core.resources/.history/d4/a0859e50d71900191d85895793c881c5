@@ -1,0 +1,25 @@
+#include <stdio.h>
+
+void MaFonctionASM();
+int MaSousASM(int val1, int val2);
+int AdditionSimple(int val1, int val2);
+//int AdditionTableau(int *TableauDeValeur);
+//void FonctionLab1();
+
+int main(void) {
+
+    int res = 0;
+    int param1 = 3;
+    int param2 = 4;
+   // int listEntier[] = {1,2,3,5,7,9};
+
+    res = AdditionSimple(param1, param2);
+
+   //MaFonctionASM();
+//   FonctionLab1();
+
+    printf("Le résultat de %d + %d est %d", param1, param2, res);
+
+
+    return 0;
+}

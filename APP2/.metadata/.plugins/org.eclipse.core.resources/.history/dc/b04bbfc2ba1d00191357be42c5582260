@@ -1,0 +1,290 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;; Les directives ;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	.def _AddEntierNonSigne32bits
+	.def _AddEntierSigne32bits
+	.def _AddFractionnaire32bits_Q7_24_Q15_16
+
+	.def _SubEntierNonSigne32bits
+	.def _SubEntierSigne32bits
+	.def _SubFlottant64bits
+
+	.def _MpyEntierNonSigneOp32bitsRes64bits
+	.def _MpyEntierSigneOp32bitsRes64bits
+	.def _MpyFractionnaireOp32bitsRes64bits_Q7_24_Q15_16
+	.def _MpyFlottant64bits
+
+	.def _DivIncrementation
+	.def _DivSubc
+	.def _DivFlottant32bits
+
+	.def _EncrypterDonnees
+
+	.data
+
+
+	.text
+
+_AddEntierNonSigne32bits
+	.asmfunc
+
+	LDW *A4++, A1
+	NOP 4
+	LDW *A4++, A2
+	NOP 4
+
+	ADDU A1, A2, A5:A4
+
+ 	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc
+
+
+_AddEntierSigne32bits
+	.asmfunc
+	LDW *A4++, A1
+	NOP 4
+	LDW *A4++, A2
+	NOP 4
+
+	ADD A1,A2,A4
+
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc
+
+
+_AddFractionnaire32bits_Q7_24_Q15_16
+	.asmfunc
+
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc
+
+
+_SubEntierNonSigne32bits
+	.asmfunc
+
+	LDW *A4++, A1
+	NOP 4
+	LDW *A4++, A2
+	NOP 4
+
+	SUBU A1, A2, A5:A4
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc
+
+
+
+_SubEntierSigne32bits
+	.asmfunc
+
+	LDW *A4++, A1
+	NOP 4
+	LDW *A4++, A2
+	NOP 4
+
+	SUB A1, A2, A4
+
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc
+
+
+_SubFlottant64bits
+	.asmfunc
+
+	LDW *A4++, A2
+	NOP 4
+	LDW *A4++, A3
+	NOP 4
+
+	LDW *A4++, B0
+	NOP 4
+	LDW *A4++, B1
+	NOP 4
+
+	SUBDP  A3:A2, B1:B0, A5:A4
+	NOP 6
+
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc
+
+
+_MpyEntierNonSigneOp32bitsRes64bits
+	.asmfunc
+
+	LDW *A4++, A2
+	NOP 4
+	LDW *A4++, A3
+	NOP 4
+
+	MVKL 0x00000010, A1
+	MVKH 0x00000010, A1
+
+	MPYU A2, A3, A6 ; Multiply Unsigned 16 LSB by Unsigned 16 LSB
+	NOP 1
+	MV A6, A4 ;Least significant calc #1
+
+	MPYHLU A2,A3, A7 ;Multiply Unsigned 16 MSB by Unsigned 16 LSB
+	NOP 1
+
+	SHR A7, A1, A11
+	SHL A7, 16, A10
+
+	MPYHLU A3, A2, A8 ;Multiply Unsigned 16 MSB by Unsigned 16 LSB
+	NOP 1
+	SHR A8, A1, A13
+	SHL A8, 16, A12
+
+	MPYHU A2, A3, A9 ;Multiply Unsigned 16 MSB by Unsigned 16 MSB
+	NOP 1
+	MV A9, A6
+
+	;ADDU A10, A4, A5:A4 ;Add LSB #1 to LSB #2
+	;ADDU A12, A4, A5:A4 ;Add LSB #1 and 2 to LSB #3
+;
+	;ADDU A11, A6, A7:A6 ;Add MSB #1 to MSB #2
+	;ADDU A13, A6, A7:A6 ;Add MSB #1 and 2 to MSB #3
+
+
+	ADDU A10, A4, A5:A4 ;Add LSB #1 to LSB #2
+	ADDU A12, A5:A4, A5:A4 ;Add LSB #1 and 2 to LSB #3
+
+	ADDU A6,A5,A7:A6
+	ADDU A11, A7:A6, A7:A6 ;Add MSB #1 to MSB #2
+	ADDU A13, A7:A6, A7:A6 ;Add MSB #1 and 2 to MSB #3
+
+	MV A6, A5
+	;ADD A6, A5, A5
+	;LDW *A6, A5
+
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc
+
+
+
+_MpyEntierSigneOp32bitsRes64bits
+	.asmfunc
+
+	LDW *A4++, A2
+	NOP 4
+	LDW *A4++, A3
+	NOP 4
+
+	MVKL 0x00000010, A1
+	MVKH 0x00000010, A1
+
+	MPY A2, A3, A6 ; Multiply Unsigned 16 LSB by Unsigned 16 LSB
+	NOP 1
+	MV A6, A4 ;Least significant calc #1
+
+	MPYHL A2,A3, A7 ;Multiply Unsigned 16 MSB by Unsigned 16 LSB
+	NOP 1
+
+	SHR A7, A1, A11
+	SHL A7, 16, A10
+
+	MPYHL A3, A2, A8 ;Multiply Unsigned 16 MSB by Unsigned 16 LSB
+	NOP 1
+	SHR A8, A1, A13
+	SHL A8, 16, A12
+
+	MPYH A2, A3, A9 ;Multiply Unsigned 16 MSB by Unsigned 16 MSB
+	NOP 1
+	MV A9, A6
+
+	ADD A10, A4, A5:A4 ;Add LSB #1 to LSB #2
+	ADD A12, A5:A4, A5:A4 ;Add LSB #1 and 2 to LSB #3
+
+	ADD A11, A6, A6 ;Add MSB #1 to MSB #2
+	ADD A13, A6, A6 ;Add MSB #1 and 2 to MSB #3
+
+	ADD A5, A6, A6
+	MV A6, A5
+
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc
+
+
+_MpyFractionnaireOp32bitsRes64bits_Q7_24_Q15_16
+	.asmfunc
+
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc
+
+
+_MpyFlottant64bits
+	.asmfunc
+
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc
+
+
+_DivIncrementation
+	.asmfunc
+
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc
+
+
+_DivSubc
+	.asmfunc
+
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc
+
+
+_DivFlottant32bits
+	.asmfunc
+
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc
+
+
+_EncrypterDonnees
+	.asmfunc
+
+	MVK 0xFFFFFFFF, A1
+
+	MV A4, A7
+	MV B4, B0
+	MVK 8, B1
+	;SUB B4, 1, B0
+	NOP 4
+
+BoucleEncrypt:
+
+	LDW *A4++, A2
+	NOP 4
+	SUB B0, 1, B0
+	NOP 4
+	XOR A2,A1,A2
+	STW A2, *A4++
+	;MV A2, A4
+
+	LDW *A4++, A2
+	NOP 4
+	XOR A2,A1,A2
+	MV A2, A4
+
+	[B0] B BoucleEncrypt
+
+	NOP 5
+
+
+
+
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc

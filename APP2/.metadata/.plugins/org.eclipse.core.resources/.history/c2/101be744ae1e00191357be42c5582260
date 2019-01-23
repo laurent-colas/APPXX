@@ -1,0 +1,54 @@
+	.def _AddEntierNonSigne32bits
+	.def _AddEntierSigne32bits
+	.def _AddFractionnaire32bits_Q7_24_Q15_16
+
+	.data
+
+
+	.text
+
+_AddEntierNonSigne32bits
+	.asmfunc
+
+	LDW *A4++, A1 ;Load 1er operand dans A1
+	NOP 4
+	LDW *A4++, A2 ;Load 2ieme operand dans A2
+	NOP 4
+
+	ADDU A1, A2, A5:A4 ;Additionner les deux operands
+
+ 	B B3 ; INDISPENSABLE ; B3 contient ladresse de retour
+    NOP 5
+	.endasmfunc
+
+
+_AddEntierSigne32bits
+	.asmfunc
+	LDW *A4++, A1 ;Load 1er operand dans A1
+	NOP 4
+	LDW *A4++, A2 ;Load 2ieme operand dans A2
+	NOP 4
+
+	ADD A1,A2,A4 ;Additionner les deux operands
+
+	B B3 ; INDISPENSABLE ; B3 contient ladresse de retour
+    NOP 5
+	.endasmfunc
+
+
+_AddFractionnaire32bits_Q7_24_Q15_16
+	.asmfunc
+
+	LDW *A4++, A1
+	NOP 4
+	LDW *A4++, A2
+	NOP 4
+
+	SHR A1,8,A1
+
+	ADD A1, A2, A4
+
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+
+	.endasmfunc

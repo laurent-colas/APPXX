@@ -1,0 +1,46 @@
+;;;;;;Définition des fonction en assembleur;;;;;;
+	.def _EncrypterDonnees
+
+	.data
+
+
+	.text
+
+;;;;;;;;;;;;;;;Cas 22;;;;;;;;;;;;;;;
+; Type de donnée: Entier non signé
+; Format de donnée (IN): 32 bits
+; Format de donnée (OUT): 32 bits
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+_EncrypterDonnees
+	.asmfunc
+
+	MVK 0xFFFFFFFF, A1 ;déplacement de la clef dans A1
+
+	MV A4, A7 ;mettre l'adrresse dans A7 pour l'addressage circulaire
+
+	MV B4, B0 ;mettre le nb de fois que tu encrypte dans B0 pour conditionnement
+	;MVK 8, B1
+
+BoucleEncrypt:
+	SUB B0, 1, B0 ;soustraire 1 du nombre d'encryption
+	;MV A8, A7
+	;MV A8, A4
+	MVK 8, B1 ;mettre 8 pour boucler la longueur du tableau
+
+BoucleNb:
+	LDW *A7, A2 ;Loader valeur du tableau dans A2
+	NOP 4
+	XOR A2, A1, A2 ;operation XOR avec la donnee du tableau et la clef
+	STW A2, *A7++ ;store résultate dans le tableau
+	SUB B1, 1, B1 ;soustraire 1 au registre de longueur de tableau
+	[B1] B BoucleNb
+	NOP 5
+
+	[B0] B BoucleEncrypt
+	NOP 5
+
+	;MV A7, A4
+	;MV A8, A4
+	B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+	.endasmfunc

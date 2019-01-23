@@ -1,0 +1,88 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;; Les directives ;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	.def _MaFonctionASM
+	.def _MaSousASM
+
+	.data
+vB .byte 4,3
+vH .half 1,2
+vW .int 0x12345678,0xABCDEFAB
+
+vDW .double 1,2
+val .int 0
+vtest .int	0x7FFFFFFF,0x00000001
+vall .long 0x7FFFFFFF,0x00000001
+pipo .float 0.5
+
+
+	.text
+
+
+_MaFonctionASM
+    .asmfunc
+
+	MVKL vW,A1
+	MVKH vW,A1
+
+	LDB *A1++,A2
+	NOP 5
+	LDB *A1++,A2
+	NOP 5
+	LDH *A1++,A2
+	NOP 5
+	LDW *A1++,A2
+	NOP 5
+	MVK 0xFFFF8765,A2
+
+	STB A2,*--A1
+	STW A2, *A1
+
+	;MVKL 0x12345678, A1
+	;MVKH 0x12345678, A1
+
+    B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+
+    .endasmfunc
+
+
+_MaSousASM
+    .asmfunc
+
+	;MVK	10,A1
+	;MVK 10,B1
+	;MVK 1,A4
+	;MVK 1,B4
+	MVK 0x01, A1
+
+	MVKL vtest, A5
+	MVKH vtest, A5
+
+	MVKL vall, A8
+	MVKH vall, A8
+
+	LDW *A5++, A2
+	NOP 5
+	LDW *A5++, A3
+	NOP 5
+
+	LDW *A8++, A9
+	NOP 5
+	LDW *A8++, A10
+	NOP 5
+
+	SADD A2,A3,A7
+	MVC *A1,B5
+
+	SADD A9,A10,A11
+
+	ADD A2,A3,A6
+	;ADDU B1,B4,B7
+	SUB A2,A3,A8
+	;SUBU B4,B1,B9
+
+    B B3 ; INDISPENSABLE ; B3 contient l'adresse de retour
+    NOP 5
+
+    .endasmfunc

@@ -1,0 +1,13 @@
+	.def _extensionSigne
+
+	.data
+
+
+	.text
+
+_extensionSigne
+	.asmfunc
+	INTSP A4, A4
+
+
+	.endasmfunc

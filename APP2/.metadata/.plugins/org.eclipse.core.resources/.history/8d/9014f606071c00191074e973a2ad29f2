@@ -1,0 +1,54 @@
+/*
+ * main.c
+ */
+#include "../fonctionsC.h"
+#include <stdio.h>
+
+int Liste_Choix[3] = {0,0,0};
+
+unsigned int TabIntNoS[2] = {0,0};
+signed int TabIntS[2] = {0,0};
+int TabInt[2] = {0,0};
+float TabFloat[2] = {0,0};
+double TabDouble[2] = {0,0};
+unsigned long TabLongNoS[2] = {0,0};
+int *TabDonnees[0] = {0,0,0,0,0,0,0,0};
+
+short TabShortS[2] = {0, 0}; // un short défini une variable de 16 bit.
+unsigned int AddEntierNonSigne32bits(unsigned int *TabIntNoS);
+signed int AddEntierSigne32bits(signed int *TabIntS);
+int AddFractionnaire32bits_Q7_24_Q15_16(int *TabIntS);
+
+unsigned int SubEntierNonSigne32bits(unsigned int *TabIntNoS);
+signed int SubEntierSigne32bits(signed int *TabIntS);
+double SubFlottant64bits(double *TabDouble);
+
+unsigned long long int MpyEntierNonSigneOp32bitsRes64bits(unsigned int *TabIntNoS);
+long long int MpyEntierSigneOp32bitsRes64bits(signed int *TabIntS);
+double MpyFractionnaireOp32bitsRes64bits_Q7_24_Q15_16(signed int *TabIntS);
+double MpyFlottant64bits(double *TabDouble);
+
+unsigned int DivIncrementation(unsigned int *TabIntNoS);
+unsigned int DivSubc(unsigned int *TabIntNoS);
+int DivFlottant32bits(float *TabFloat);
+
+
+int EncrypterDonnees(int *TabDonnees, int nbTours);
+
+
+int main(void) {
+    ObtenirType(Liste_Choix);
+    ObtenirFormat(Liste_Choix+1);
+    ObtenirOperation(Liste_Choix+2);
+//    ChoisirOperandesIntNoS(TabIntNoS);
+//    ChoisirOperandesIntS(TabIntS);
+//    ChoisirOperandesFrac(TabInt);
+//    ChoisirOperandesDouble(TabDouble);
+
+    //test = ConvertirListe(Liste_Choix) ;
+    AnalyserListe(Liste_Choix, TabIntNoS, TabIntS, TabInt, TabFloat, TabDouble, TabLongNoS, TabDonnees);
+
+
+    //AnalyserListe();
+    return 0;
+}
