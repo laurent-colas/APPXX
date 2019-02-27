@@ -1,0 +1,151 @@
+
+	.def _enableInterruptVoice
+	.def _disableInterruptVoice
+	.def _enableInterruptSin
+	.def _disableInterruptSin
+
+
+
+
+_enableInterruptVoice
+	.asmfunc
+
+MASK_EN_NMI	.set	0x00000002
+MASK_EN_INTERRUPT	.set	0x00000002
+MASK_INTERRUPT_IE15	.set	0x00008000
+	MVC CSR, B5 ;Enable global interupt
+	OR B5, 0x01, B5
+	MVC B5, CSR
+
+	MVC IER, B5
+	MVKL MASK_EN_NMI, B4
+	MVKH MASK_EN_NMI, B4
+	OR B4, B5, B5
+	MVC B5, IER
+
+
+	MVC IER, B5
+	MVKH MASK_INTERRUPT_IE15, B4
+	MVKL MASK_INTERRUPT_IE15, B4
+	OR B4, B5, B5
+	MVC B5, IER
+
+
+	B B3
+	NOP 5
+
+
+	.endasmfunc
+
+
+
+_disableInterruptVoice
+	.asmfunc
+MASK_DIS_INTERRUPT_IE15	.set	0x00000002
+
+
+	MVC IER, B5
+	MVKH MASK_DIS_INTERRUPT_IE15, B4
+	MVKL MASK_DIS_INTERRUPT_IE15, B4
+	AND B4, B5, B5
+	MVC B5, IER
+
+
+	B B3
+	NOP 5
+
+
+	.endasmfunc
+
+_enableInterruptSin
+	.asmfunc
+
+MASK_EN_NMI	.set	0x00000002
+MASK_EN_INTERRUPT	.set	0x00000002
+MASK_INTERRUPT_IE11	.set	0x00000800
+	MVC CSR, B5 ;Enable global interupt
+	OR B5, 0x01, B5
+	MVC B5, CSR
+
+	MVC IER, B5
+	MVKL MASK_EN_NMI, B4
+	MVKH MASK_EN_NMI, B4
+	OR B4, B5, B5
+	MVC B5, IER
+
+
+	MVC IER, B5
+	MVKH MASK_INTERRUPT_IE11, B4
+	MVKL MASK_INTERRUPT_IE11, B4
+	OR B4, B5, B5
+	MVC B5, IER
+
+
+	B B3
+	NOP 5
+
+
+	.endasmfunc
+
+
+_disableInterruptSin
+	.asmfunc
+MASK_DIS_INTERRUPT_IE11	.set	0x00000002
+
+
+	MVC IER, B5
+	MVKH MASK_DIS_INTERRUPT_IE11, B4
+	MVKL MASK_DIS_INTERRUPT_IE11, B4
+	AND B4, B5, B5
+	MVC B5, IER
+
+
+	B B3
+	NOP 5
+
+
+	.endasmfunc
+
+_enableInterrupts
+	.asmfunc
+
+Inter	.set	0x019C0004
+MASK_EN_NMI	.set	0x00000002
+MASK_EN_INTERRUPT	.set	0x00000002
+
+	MVC CSR, B5 ;Enable global interupt
+	OR B5, 0x01, B5
+	MVC B5, CSR
+
+	MVC IER, B5
+	MVKL MASK_EN_NMI, B4
+	MVKH MASK_EN_NMI, B4
+	OR B4, B5, B5
+	MVC B5, IER
+
+
+	MVC IER, B5
+	MVKH 0x10, B4
+	MVKL 0x10, B4
+	OR B4, B5, B5
+	MVC B5, IER
+
+
+	;MVKH Inter, B4
+	;MVKL Inter, B4
+	;LDW *B4, B6
+
+	;MVKH MASK_EN_INTERRUPT, B5
+	;MVKL MASK_EN_INTERRUPT, B5
+
+	;STW B5, *B4
+
+
+
+
+	B B3
+	NOP 5
+
+
+	.endasmfunc
+

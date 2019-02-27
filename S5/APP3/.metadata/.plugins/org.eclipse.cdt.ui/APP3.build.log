@@ -1,0 +1,24 @@
+
+**** Build of configuration Debug for project APP3 ****
+
+"C:\\ti\\ccsv7\\utils\\bin\\gmake" -k -j 4 all -O 
+'Building file: ../source/c/main.c'
+'Invoking: C6000 Compiler'
+"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/bin/cl6x" -mv6700 --abi=coffabi -g --include_path="C:/ti/ccsv7/tools/compiler/c6000_7.4.20/include" --include_path="C:/ti/ccsv7/ccs_base/C6xCSL/include" --include_path="C:/ti/dsk6713/include" --define=CHIP_6713 --diag_warning=225 --diag_wrap=off --display_error_number --mem_model:const=far --mem_model:data=far --preproc_with_compile --preproc_dependency="source/c/main.d" --obj_directory="source/c"  "../source/c/main.c"
+'Finished building: ../source/c/main.c'
+' '
+'Building target: APP3.out'
+'Invoking: C6000 Linker'
+"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/bin/cl6x" -mv6700 --abi=coffabi -g --define=CHIP_6713 --diag_warning=225 --diag_wrap=off --display_error_number --mem_model:const=far --mem_model:data=far -z -m"APP3.map" --stack_size=0x1000 --heap_size=0x1000 -i"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/lib" -i"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/include" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="APP3_linkInfo.xml" --rom_model -o "APP3.out" "./source/asm/Vectors_intr.obj" "./source/asm/setup_interruption.obj" "./source/c/C6713Helper_UdeS.obj" "./source/c/main.obj" "../C6713dsk.cmd"  -llibc.a -l"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/lib/rts6700.lib" -l"C:/ti/ccsv7/ccs_base/C6xCSL/lib_3x/csl6713.lib" -l"C:/ti/dsk6713/lib/dsk6713bsl.lib" 
+<Linking>
+warning #16002-D: build attribute vendor section TI missing in "C:/ti/ccsv7/ccs_base/C6xCSL/lib_3x/csl6713.lib<csl_irq.obj>": compatibility cannot be determined
+warning #16002-D: build attribute vendor section TI missing in "C:/ti/ccsv7/ccs_base/C6xCSL/lib_3x/csl6713.lib<csl_mcbsp.obj>": compatibility cannot be determined
+warning #16002-D: build attribute vendor section TI missing in "C:/ti/dsk6713/lib/dsk6713bsl.lib<dsk6713.obj>": compatibility cannot be determined
+warning #16002-D: build attribute vendor section TI missing in "C:/ti/dsk6713/lib/dsk6713bsl.lib<dsk6713_aic23_closecodec.obj>": compatibility cannot be determined
+warning #16002-D: build attribute vendor section TI missing in "C:/ti/dsk6713/lib/dsk6713bsl.lib<dsk6713_aic23_opencodec.obj>": compatibility cannot be determined
+warning #16002-D: build attribute vendor section TI missing in "C:/ti/dsk6713/lib/dsk6713bsl.lib<dsk6713_aic23_registers.obj>": compatibility cannot be determined
+warning #16002-D: build attribute vendor section TI missing in "C:/ti/dsk6713/lib/dsk6713bsl.lib<dsk6713_aic23_setfreq.obj>": compatibility cannot be determined
+'Finished building target: APP3.out'
+' '
+
+**** Build Finished ****

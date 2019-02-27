@@ -1,0 +1,6 @@
+void readDips(void);
+
+
+void readDips(void) {
+
+}
