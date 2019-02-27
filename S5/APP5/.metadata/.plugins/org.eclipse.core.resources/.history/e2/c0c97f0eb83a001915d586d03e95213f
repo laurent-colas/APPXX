@@ -1,0 +1,30 @@
+/*
+ * SimpleInterrupt.c
+ *
+ *  Created on: 27 févr. 2019
+ *      Author: laurent
+ */
+
+#include <csl.h>
+#include <csl_timer.h>
+#include <csl_irq.h>
+
+
+void init_ext_intr(void);
+interrupt void c_int04(void);
+
+static TIMER_Handle hTimer1;
+static Uint32 TimerEventId;
+static int cnt = 0;
+
+
+void init_ext_intr(void) {
+
+    /* Open TIMER1 device, and reset them to power-on default state */
+    hTimer1 = TIMER_open(TIMER_DEV1, TIMER_OPEN_RESET);
+
+}
+
+interrupt void c_int04(void) {
+
+}

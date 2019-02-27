@@ -1,0 +1,23 @@
+/*
+ * SimpleInterrupt.c
+ *
+ *  Created on: 27 févr. 2019
+ *      Author: laurent
+ */
+
+#include <csl.h>
+#include <csl_timer.h>
+#include <csl_irq.h>
+
+
+void init_ext_intr(void);
+interrupt void c_int04(void);
+
+
+void init_ext_intr(void) {
+
+}
+
+interrupt void c_int04(void) {
+
+}

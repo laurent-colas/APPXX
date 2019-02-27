@@ -1,0 +1,88 @@
+/*
+ * SimpleInterrupt.c
+ *
+ *  Created on: 27 févr. 2019
+ *      Author: laurent
+ */
+
+#include <csl.h>
+#include <csl_timer.h>
+#include <csl_irq.h>
+#include <csl_gpio.h>
+#include <stdio.h>   // get standard I/O functions (as printf)
+#include <stddef.h>  // get null and size_t definition
+#include <stdbool.h> // get boolean, true and false definition
+
+far void vectors();   // Vecteurs d'interruption
+
+void init_ext_intr(void);
+interrupt void c_int04(void);
+
+static TIMER_Handle hTimer1;
+static GPIO_Handle hGPIO4;
+static Uint32 TimerEventId;
+static Uint32 DIR_PIN4
+static int cnt = 0;
+
+
+void init_ext_intr(void) {
+
+    hGPIO4 = GPIO_open(GPIO_DEV0, GPIO_OPEN_RESET);
+    GPIO_pinEnable(hGPIO4, GPIO_PIN4);
+
+    GPIO_pinDirection(GPIO_Handle hGpio, Uint32 pinId, Uint32 direction);
+
+
+    /* Open TIMER1 device, and reset them to power-on default state */
+    hTimer1 = TIMER_open(TIMER_DEV1, TIMER_OPEN_RESET);
+    /* Obtain the event ID for the timer device */
+    TimerEventId = TIMER_getEventId(hTimer1);
+
+    IRQ_setVecs(vectors);     /* point to the IRQ vector table    */
+    IRQ_globalEnable();       /* Globally enable interrupts       */
+    IRQ_nmiEnable();          /* Enable NMI interrupt             */
+
+    /* Map TIMER events to physical interrupt number */
+    IRQ_map(TimerEventId, 14);
+
+    /* Reset the timer events */
+    IRQ_reset(TimerEventId);
+
+    /* Configure the timer devices */
+    TIMER_configArgs(hTimer1,
+    TimerControl, /* use predefined control value  */
+    0x00100000,   /* set period                    */
+    0x00000000    /* start count value at zero     */
+    );
+
+    /* Enable the timer events(events are disabled while resetting) */
+    IRQ_enable(TimerEventId);
+
+    /* Start the timers */
+    TIMER_start(hTimer1);
+
+    while(cnt <= TIMER_CNT); /* waiting for interrupt*/
+
+}
+
+interrupt void c_int04(void) {
+
+}
+
+
+
+
+
+void main() {
+
+    CSL_init();
+    init_ext_intr();
+
+    // Boucle infinie
+    while(1)
+    {
+
+    }
+}
+
+

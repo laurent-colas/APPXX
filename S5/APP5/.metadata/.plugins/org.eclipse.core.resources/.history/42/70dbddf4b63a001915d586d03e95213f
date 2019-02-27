@@ -1,0 +1,14 @@
+/*
+ * SimpleInterrupt.c
+ *
+ *  Created on: 27 févr. 2019
+ *      Author: laurent
+ */
+
+void init_ext_intr(void) {
+
+}
+
+interrupt c_int04(void) {
+
+}
