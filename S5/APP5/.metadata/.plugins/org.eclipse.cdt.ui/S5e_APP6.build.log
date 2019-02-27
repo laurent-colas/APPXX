@@ -1,0 +1,61 @@
+
+**** Build of configuration Debug for project S5e_APP6 ****
+
+"C:\\ti\\ccsv7\\utils\\bin\\gmake" -k -j 4 all -O 
+'Building file: ../source/asm/ULAW2INT.asm'
+'Invoking: C6000 Compiler'
+"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/bin/cl6x" -mv6700 --abi=coffabi -g --include_path="C:/ti/ccsv7/tools/compiler/c6000_7.4.20/include" --include_path="C:/Users/laure/Documents/Code_APP/S5/APP5/S5e_APP6/includes" --include_path="C:/ti/ccsv7/ccs_base/C6xCSL/include" --include_path="C:/ti/dsk6713/include" --define=CHIP_6713 --diag_wrap=off --display_error_number --diag_warning=225 --mem_model:data=far --mem_model:const=far --preproc_with_compile --preproc_dependency="source/asm/ULAW2INT.d" --obj_directory="source/asm"  "../source/asm/ULAW2INT.asm"
+'Finished building: ../source/asm/ULAW2INT.asm'
+' '
+'Building file: ../source/asm/INT2ULAW.asm'
+'Invoking: C6000 Compiler'
+"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/bin/cl6x" -mv6700 --abi=coffabi -g --include_path="C:/ti/ccsv7/tools/compiler/c6000_7.4.20/include" --include_path="C:/Users/laure/Documents/Code_APP/S5/APP5/S5e_APP6/includes" --include_path="C:/ti/ccsv7/ccs_base/C6xCSL/include" --include_path="C:/ti/dsk6713/include" --define=CHIP_6713 --diag_wrap=off --display_error_number --diag_warning=225 --mem_model:data=far --mem_model:const=far --preproc_with_compile --preproc_dependency="source/asm/INT2ULAW.d" --obj_directory="source/asm"  "../source/asm/INT2ULAW.asm"
+'Finished building: ../source/asm/INT2ULAW.asm'
+' '
+'Building file: ../source/asm/Vectors.asm'
+'Invoking: C6000 Compiler'
+"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/bin/cl6x" -mv6700 --abi=coffabi -g --include_path="C:/ti/ccsv7/tools/compiler/c6000_7.4.20/include" --include_path="C:/Users/laure/Documents/Code_APP/S5/APP5/S5e_APP6/includes" --include_path="C:/ti/ccsv7/ccs_base/C6xCSL/include" --include_path="C:/ti/dsk6713/include" --define=CHIP_6713 --diag_wrap=off --display_error_number --diag_warning=225 --mem_model:data=far --mem_model:const=far --preproc_with_compile --preproc_dependency="source/asm/Vectors.d" --obj_directory="source/asm"  "../source/asm/Vectors.asm"
+'Finished building: ../source/asm/Vectors.asm'
+' '
+'Building file: ../source/c/Audio_driver.c'
+'Invoking: C6000 Compiler'
+"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/bin/cl6x" -mv6700 --abi=coffabi -g --include_path="C:/ti/ccsv7/tools/compiler/c6000_7.4.20/include" --include_path="C:/Users/laure/Documents/Code_APP/S5/APP5/S5e_APP6/includes" --include_path="C:/ti/ccsv7/ccs_base/C6xCSL/include" --include_path="C:/ti/dsk6713/include" --define=CHIP_6713 --diag_wrap=off --display_error_number --diag_warning=225 --mem_model:data=far --mem_model:const=far --preproc_with_compile --preproc_dependency="source/c/Audio_driver.d" --obj_directory="source/c"  "../source/c/Audio_driver.c"
+'Finished building: ../source/c/Audio_driver.c'
+' '
+'Building file: ../source/c/SPI_driver.c'
+'Invoking: C6000 Compiler'
+"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/bin/cl6x" -mv6700 --abi=coffabi -g --include_path="C:/ti/ccsv7/tools/compiler/c6000_7.4.20/include" --include_path="C:/Users/laure/Documents/Code_APP/S5/APP5/S5e_APP6/includes" --include_path="C:/ti/ccsv7/ccs_base/C6xCSL/include" --include_path="C:/ti/dsk6713/include" --define=CHIP_6713 --diag_wrap=off --display_error_number --diag_warning=225 --mem_model:data=far --mem_model:const=far --preproc_with_compile --preproc_dependency="source/c/SPI_driver.d" --obj_directory="source/c"  "../source/c/SPI_driver.c"
+'Finished building: ../source/c/SPI_driver.c'
+' '
+'Building file: ../source/c/Telephone.c'
+'Invoking: C6000 Compiler'
+"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/bin/cl6x" -mv6700 --abi=coffabi -g --include_path="C:/ti/ccsv7/tools/compiler/c6000_7.4.20/include" --include_path="C:/Users/laure/Documents/Code_APP/S5/APP5/S5e_APP6/includes" --include_path="C:/ti/ccsv7/ccs_base/C6xCSL/include" --include_path="C:/ti/dsk6713/include" --define=CHIP_6713 --diag_wrap=off --display_error_number --diag_warning=225 --mem_model:data=far --mem_model:const=far --preproc_with_compile --preproc_dependency="source/c/Telephone.d" --obj_directory="source/c"  "../source/c/Telephone.c"
+'Finished building: ../source/c/Telephone.c'
+' '
+'Building file: ../source/c/C6713Helper_UdeS.c'
+'Invoking: C6000 Compiler'
+"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/bin/cl6x" -mv6700 --abi=coffabi -g --include_path="C:/ti/ccsv7/tools/compiler/c6000_7.4.20/include" --include_path="C:/Users/laure/Documents/Code_APP/S5/APP5/S5e_APP6/includes" --include_path="C:/ti/ccsv7/ccs_base/C6xCSL/include" --include_path="C:/ti/dsk6713/include" --define=CHIP_6713 --diag_wrap=off --display_error_number --diag_warning=225 --mem_model:data=far --mem_model:const=far --preproc_with_compile --preproc_dependency="source/c/C6713Helper_UdeS.d" --obj_directory="source/c"  "../source/c/C6713Helper_UdeS.c"
+'Finished building: ../source/c/C6713Helper_UdeS.c'
+' '
+'Building file: ../source/c/module_example.c'
+'Invoking: C6000 Compiler'
+"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/bin/cl6x" -mv6700 --abi=coffabi -g --include_path="C:/ti/ccsv7/tools/compiler/c6000_7.4.20/include" --include_path="C:/Users/laure/Documents/Code_APP/S5/APP5/S5e_APP6/includes" --include_path="C:/ti/ccsv7/ccs_base/C6xCSL/include" --include_path="C:/ti/dsk6713/include" --define=CHIP_6713 --diag_wrap=off --display_error_number --diag_warning=225 --mem_model:data=far --mem_model:const=far --preproc_with_compile --preproc_dependency="source/c/module_example.d" --obj_directory="source/c"  "../source/c/module_example.c"
+"../source/c/module_example.c", line 53: warning #552-D: variable "my_pointer" was set but never used
+"../source/c/module_example.c", line 54: warning #552-D: variable "my_coordinates" was set but never used
+'Finished building: ../source/c/module_example.c'
+' '
+'Building target: S5e_APP6.out'
+'Invoking: C6000 Linker'
+"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/bin/cl6x" -mv6700 --abi=coffabi -g --define=CHIP_6713 --diag_wrap=off --display_error_number --diag_warning=225 --mem_model:data=far --mem_model:const=far -z -m"S5e_APP6.map" --stack_size=0x1000 --heap_size=0x1000 -i"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/lib" -i"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="S5e_APP6_linkInfo.xml" --rom_model -o "S5e_APP6.out" "./source/asm/INT2ULAW.obj" "./source/asm/ULAW2INT.obj" "./source/asm/Vectors.obj" "./source/c/Audio_driver.obj" "./source/c/C6713Helper_UdeS.obj" "./source/c/SPI_driver.obj" "./source/c/Telephone.obj" "./source/c/module_example.obj" "../C6713dsk.cmd"  -llibc.a -l"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/lib/rts6700.lib" -l"C:/ti/ccsv7/ccs_base/C6xCSL/lib_3x/csl6713.lib" -l"C:/ti/dsk6713/lib/dsk6713bsl.lib" 
+<Linking>
+warning #16002-D: build attribute vendor section TI missing in "C:/ti/ccsv7/ccs_base/C6xCSL/lib_3x/csl6713.lib<csl_irq.obj>": compatibility cannot be determined
+warning #16002-D: build attribute vendor section TI missing in "C:/ti/ccsv7/ccs_base/C6xCSL/lib_3x/csl6713.lib<csl_mcbsp.obj>": compatibility cannot be determined
+warning #16002-D: build attribute vendor section TI missing in "C:/ti/dsk6713/lib/dsk6713bsl.lib<dsk6713.obj>": compatibility cannot be determined
+warning #16002-D: build attribute vendor section TI missing in "C:/ti/dsk6713/lib/dsk6713bsl.lib<dsk6713_aic23_closecodec.obj>": compatibility cannot be determined
+warning #16002-D: build attribute vendor section TI missing in "C:/ti/dsk6713/lib/dsk6713bsl.lib<dsk6713_aic23_opencodec.obj>": compatibility cannot be determined
+warning #16002-D: build attribute vendor section TI missing in "C:/ti/dsk6713/lib/dsk6713bsl.lib<dsk6713_aic23_registers.obj>": compatibility cannot be determined
+warning #16002-D: build attribute vendor section TI missing in "C:/ti/dsk6713/lib/dsk6713bsl.lib<dsk6713_aic23_setfreq.obj>": compatibility cannot be determined
+'Finished building target: S5e_APP6.out'
+' '
+
+**** Build Finished ****
