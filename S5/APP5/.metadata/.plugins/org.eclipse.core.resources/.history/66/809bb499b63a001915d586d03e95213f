@@ -1,0 +1,22 @@
+/*
+ * main.c
+ *
+ *  Created on: 27 févr. 2019
+ *      Author: laure
+ */
+
+
+
+
+
+void main()
+{
+    // initialisation des modules et des périphériques
+    myModule_init(); // initialisation du module exemple ; à enlever
+
+    // Boucle infinie
+    while(1)
+    {
+
+    }
+}
