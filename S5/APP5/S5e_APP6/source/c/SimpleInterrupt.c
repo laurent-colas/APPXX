@@ -12,6 +12,8 @@
 #include <stdio.h>   // get standard I/O functions (as printf)
 #include <stddef.h>  // get null and size_t definition
 #include <stdbool.h> // get boolean, true and false definition
+#include <DSK6713_LED.h>
+#include <dsk6713.h>
 
 far void vectors();   // Vecteurs d'interruption
 
@@ -21,54 +23,43 @@ interrupt void c_int04(void);
 static TIMER_Handle hTimer1;
 static GPIO_Handle hGPIO4;
 static Uint32 TimerEventId;
-static Uint32 DIR_PIN4;
-static Uint32 POL_PIN4;
+static Uint32 DIR_PIN4 = GPIO_INPUT;
+static Uint32 DIR_PIN9 = GPIO_OUTPUT;
+static Uint32 POL_PIN4 = GPIO_RISING;
 static int cnt = 0;
 
+int flag_led = 0;
 
 void init_ext_intr(void) {
 
     hGPIO4 = GPIO_open(GPIO_DEV0, GPIO_OPEN_RESET);
     GPIO_pinEnable(hGPIO4, GPIO_PIN4);
 
-    DIR_PIN4 = GPIO_pinDirection(hGPIO4, GPIO_PIN4, GPIO_INPUT);
-    POL_PIN4 = GPIO_intPolarity(hGPIO4, GPIO_INT_CNT, GPIO_RISING);
+    DIR_PIN4 = GPIO_pinDirection(hGPIO4, GPIO_PIN4, DIR_PIN4);
+    GPIO_intPolarity(hGPIO4, GPIO_GPINT4, POL_PIN4);
 
-
-    /* Open TIMER1 device, and reset them to power-on default state */
-    hTimer1 = TIMER_open(TIMER_DEV1, TIMER_OPEN_RESET);
-    /* Obtain the event ID for the timer device */
-    TimerEventId = TIMER_getEventId(hTimer1);
+    GPIO_pinEnable(hGPIO4, GPIO_PIN9);
+    DIR_PIN9 = GPIO_pinDirection(hGPIO4, GPIO_PIN9, DIR_PIN9);
+    GPIO_pinWrite(hGPIO4,GPIO_PIN9,0);
 
     IRQ_setVecs(vectors);     /* point to the IRQ vector table    */
     IRQ_globalEnable();       /* Globally enable interrupts       */
-    IRQ_nmiEnable();          /* Enable NMI interrupt             */
+    IRQ_nmiEnable();          /* Enable NMI interrupt    */
+    IRQ_map(IRQ_EVT_EXTINT4, 4);
+    IRQ_reset(IRQ_EVT_EXTINT4);
+    IRQ_enable(IRQ_EVT_EXTINT4);
 
-    /* Map TIMER events to physical interrupt number */
-    IRQ_map(TimerEventId, 14);
 
-    /* Reset the timer events */
-    IRQ_reset(TimerEventId);
-
-    /* Configure the timer devices */
-    TIMER_configArgs(hTimer1,
-    TimerControl, /* use predefined control value  */
-    0x00100000,   /* set period                    */
-    0x00000000    /* start count value at zero     */
-    );
-
-    /* Enable the timer events(events are disabled while resetting) */
-    IRQ_enable(TimerEventId);
-
-    /* Start the timers */
-    TIMER_start(hTimer1);
-
-    while(cnt <= TIMER_CNT); /* waiting for interrupt*/
 
 }
 
 interrupt void c_int04(void) {
-
+    if(flag_led == 0){
+        flag_led = 1;
+    }
+    else{
+        flag_led = 0;
+    }
 }
 
 
@@ -79,11 +70,18 @@ void main() {
 
     CSL_init();
     init_ext_intr();
+    DSK6713_init();
+    DSK6713_LED_init();
 
     // Boucle infinie
     while(1)
     {
-
+        if(flag_led == 1){
+            GPIO_pinWrite(hGPIO4,GPIO_PIN9,1);
+        }
+        else{
+            GPIO_pinWrite(hGPIO4,GPIO_PIN9,0);
+        }
     }
 }
 

@@ -1,3 +1,4 @@
+
 /********************************************************
 **  Session 5 - APP6 - Téléphonie par DSP
 **  Fichier principal Telephone.c
@@ -8,7 +9,7 @@
 /***************************************************************************
 	Include headers :
 ***************************************************************************/
-
+/*
 // Used modules headers
 #include "module_example.h"
 #include "SPI_driver.h"
@@ -33,7 +34,7 @@
 ****************************************************************************/
 
 // déclaration des contenus utilisés ici mais définis ailleurs
-
+/*
 extern far void vectors();   // Vecteurs d'interruption
 
 
@@ -60,7 +61,7 @@ extern far void vectors();   // Vecteurs d'interruption
 /****************************************************************************
 	Main Program :
 ****************************************************************************/
-
+/*
 void main()
 {
 	// initialisation des modules et des périphériques
