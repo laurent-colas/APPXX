@@ -64,13 +64,16 @@ extern far void vectors();   // Vecteurs d'interruption
 void main()
 {
 	// initialisation des modules et des périphériques
-	myModule_init(); // initialisation du module exemple ; à enlever
-	comm_intr(32, 16);
-	
+	Audio_init();
+	SPI_init();
 	// Boucle infinie
+	char data;
 	while(1)
 	{	
-
+	    SPI_Write('c');
+	    DSK6713_waitusec(1000000);
+	    data = SPI_Read();
+	    DSK6713_waitusec(1000000);
 	}
 }
 

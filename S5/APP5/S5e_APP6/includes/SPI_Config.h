@@ -10,8 +10,6 @@
 
 #include <csl_mcbsp.h>
 
-extern MCBSP_Handle DSK6713_AIC23_CONTROLHANDLE;
-
 MCBSP_Config MCBSP0_SPI_Cfg_Init = {
         MCBSP_FMKS(SPCR, FREE, NO)              |
         MCBSP_FMKS(SPCR, SOFT, NO)              |

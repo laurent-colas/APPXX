@@ -78,7 +78,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="source/asm/ULAW2INT.asm|source/asm/INT2ULAW.asm|source/c/Telephone.c|source/c/SPI_driver.c|source/c/module_example.c|source/c/C6713Helper_UdeS.c|source/c/Audio_driver.c|source/references" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="source/c/SimpleInterrupt.c|source/references" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

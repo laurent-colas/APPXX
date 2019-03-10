@@ -57,7 +57,7 @@ extern far void vectors();   // Vecteurs d'interruption
 // Function description here ...
 void Audio_init(void)
 {
-
+    comm_intr(DSK6713_AIC23_FREQ_44KHZ, 17);
 	return;
 }
 
