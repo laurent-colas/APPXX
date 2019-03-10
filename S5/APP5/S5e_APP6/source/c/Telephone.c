@@ -65,6 +65,7 @@ void main()
 {
 	// initialisation des modules et des périphériques
 	myModule_init(); // initialisation du module exemple ; à enlever
+	comm_intr(32, 16);
 	
 	// Boucle infinie
 	while(1)

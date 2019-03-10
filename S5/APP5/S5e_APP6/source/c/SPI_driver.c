@@ -10,7 +10,7 @@
 	Include headers :
 ***************************************************************************/
 
-//#include "something.h"
+#include "SPI_Config.h"
 
 
 /***************************************************************************
@@ -57,9 +57,20 @@ extern far void vectors();   // Vecteurs d'interruption
 ****************************************************************************/
 
 // Function description here ...
+void initMCBSP()
+{
+    MCBSP_config(DSK6713_AIC23_CONTROLHANDLE,&MCBSP0_SPI_Cfg_Init);
+}
+
+void masterSPIMCBSP()
+{
+    MCBSP_config(DSK6713_AIC23_CONTROLHANDLE,&MCBSP0_SPI_Cfg_Master);
+}
+
 void SPI_init(void)
 {
-
+    initMCBSP();
+    masterSPIMCBSP();
 	return;
 }
 

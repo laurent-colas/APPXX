@@ -4,7 +4,7 @@
    .global _vector1
    .global _vector2
    .global _vector3
-   .global _c_int4
+   .global _vector4
    .global _vector5
    .global _vector6
    .global _vector7
@@ -41,7 +41,7 @@ _vector0:   VEC_ENTRY _c_int00   	;RESET
 _vector1:   VEC_ENTRY _vec_dummy  	;NMI
 _vector2:   VEC_ENTRY _vec_dummy  	;RSVD
 _vector3:   VEC_ENTRY _vec_dummy
-_vector4:   VEC_ENTRY _c_int4
+_vector4:   VEC_ENTRY _vec_dummy
 _vector5:   VEC_ENTRY _vec_dummy
 _vector6:   VEC_ENTRY _vec_dummy
 _vector7:   VEC_ENTRY _vec_dummy

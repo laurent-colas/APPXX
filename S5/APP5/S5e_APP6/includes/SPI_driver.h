@@ -20,7 +20,7 @@
 #include <stdbool.h> // get boolean, true and false definition
 
 
-// #include "something.h"
+#include "SPI_Config.h"
 
 /***************************************************************************
 	Set EXTERN macro :
@@ -60,6 +60,10 @@
 EXTERN void SPI_init(void);
 
 // ajoutez vos prototype de fonction ici
+
+
+void initMCBSP();
+void masterSPIMCBSP();
 
 #undef SPI_DRIVER_MODULE_IMPORT
 
