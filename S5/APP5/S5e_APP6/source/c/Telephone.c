@@ -66,12 +66,16 @@ extern far void vectors();   // Vecteurs d'interruption
 
 void main()
 {
-    Audio_init();
+	// initialisation des modules et des périphériques
+	Audio_init();
+	SPI_init();
 	// Boucle infinie
+	char data;
 	while(1)
 	{
 	    int i = 0;
-	    for(i;i <= 7; i++){
+	    for(i;i <= 7; i++)
+	    {
 	        output_sample(sine_table[i]);
 	        DSK6713_waitusec(100);
 	    }

@@ -19,9 +19,6 @@
 #include <stddef.h>  // get null and size_t definition
 #include <stdbool.h> // get boolean, true and false definition
 
-
-// #include "something.h"
-
 /***************************************************************************
 	Set EXTERN macro :
 ***************************************************************************/
@@ -37,6 +34,11 @@
 ***************************************************************************/
 
 //#define something something_else
+
+#define SPI_WRITE_CONFIG 1
+#define SPI_READ_CONFIG 1
+#define SPI_WRITE_DATA 1
+#define SPI_READ_DATA 1
 
 /***************************************************************************
 	Types declaration here :
@@ -60,6 +62,12 @@
 EXTERN void SPI_init(void);
 
 // ajoutez vos prototype de fonction ici
+
+
+void initMCBSP();
+void masterSPIMCBSP();
+void SPI_Write(char);
+char SPI_Read(void);
 
 #undef SPI_DRIVER_MODULE_IMPORT
 
