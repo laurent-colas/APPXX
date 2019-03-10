@@ -1,7 +1,7 @@
 /********************************************************
 **  Session 5 - APP6 - Téléphonie par DSP
 **  Fichier Audio_driver.h
-**  Auteurs : < vos noms >
+**  Auteurs : berth
 **  Date : < derniere modification >
 ********************************************************/
 
@@ -21,7 +21,12 @@
 
 
 
-// #include "something.h"
+#include "C6713Helper_UdeS.h"
+#include "dsk6713_dip.h"
+#define DSK6713_AIC23_INPUT_MIC 0x0015
+
+
+unsigned char int2ulaw(short linear);
 
 /***************************************************************************
 	Set EXTERN macro :

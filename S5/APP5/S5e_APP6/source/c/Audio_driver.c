@@ -9,7 +9,7 @@
 	Include headers :
 ***************************************************************************/
 
-//#include "something.h"
+#include "Audio_driver.h"
 
 
 /***************************************************************************
@@ -17,7 +17,6 @@
 ***************************************************************************/
 
 #define AUDIO_DRIVER_MODULE_IMPORT
-#include "Audio_driver.h"
 
 
 /****************************************************************************
@@ -57,7 +56,7 @@ extern far void vectors();   // Vecteurs d'interruption
 // Function description here ...
 void Audio_init(void)
 {
-
+    comm_intr(DSK6713_AIC23_FREQ_44KHZ,DSK6713_AIC23_INPUT_MIC);
 	return;
 }
 
@@ -68,7 +67,13 @@ void Audio_init(void)
 
 interrupt void c_int11(void)
 {
-	//do somehing
+    if(DSK6713_DIP_get(0) == 0){
+        int2ulaw(input_sample());
+    }
+
+    else if(DSK6713_DIP_get(0) == 1) {
+        input_sample();
+    }
 	return;
 }
 
