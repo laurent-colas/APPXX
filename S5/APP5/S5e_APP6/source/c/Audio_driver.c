@@ -10,7 +10,7 @@
 ***************************************************************************/
 
 #include "Audio_driver.h"
-
+#include "SPI_driver.h"
 
 /***************************************************************************
 	Include Module Header :
@@ -68,11 +68,11 @@ void Audio_init(void)
 interrupt void c_int11(void)
 {
     if(DSK6713_DIP_get(0) == 0){
-        int2ulaw(input_sample());
+        SPI_Write(int2ulaw(input_sample()));
     }
-
-    else if(DSK6713_DIP_get(0) == 1) {
-        input_sample();
+    else{
+        Uint8 data = input_sample() >> 8;
+        SPI_Write(data);
     }
 	return;
 }

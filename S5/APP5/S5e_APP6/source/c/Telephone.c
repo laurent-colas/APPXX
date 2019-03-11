@@ -20,9 +20,9 @@
 #include <stdio.h>   // get standard I/O functions (as printf)
 #include <stddef.h>  // get null and size_t definition
 #include <stdbool.h> // get boolean, true and false definition
-#include <math.h>
+//#include <math.h>
 
-short sine_table[8]={0,707,1000,707,0,-707,-1000,-707};
+
 
 /****************************************************************************
 	Private macros and constants :
@@ -52,8 +52,6 @@ extern far void vectors();   // Vecteurs d'interruption
 	Private global variables :
 ****************************************************************************/
 
-// Use static keyword here
-
 /****************************************************************************
 	Main program private functions prototypes :
 ****************************************************************************/
@@ -73,12 +71,7 @@ void main()
 	char data;
 	while(1)
 	{
-	    int i = 0;
-	    for(i;i <= 7; i++)
-	    {
-	        output_sample(sine_table[i]);
-	        DSK6713_waitusec(100);
-	    }
+
 	}
 }
 
@@ -90,5 +83,11 @@ void main()
 /****************************************************************************
 	Main program interrupt service routines (ISR) :
 ****************************************************************************/
+
+interrupt void c_int04(void)
+{
+
+
+}
 
 // end of Telephone.c
