@@ -31,19 +31,13 @@
 #include <stdbool.h> // get boolean, true and false definition
 #include <math.h>
 
-short sine_table[8]={0,707,1000,707,0,-707,-1000,-707};
-
-//décmacation de la variale d'état de la DIP3
-unsigned int DIP3Stat;
-
-#define ADRESSE_CTL0 0x90080100
-#define MASK_CTL0 0x00000001
 /****************************************************************************
 	Private macros and constants :
 ****************************************************************************/
 
 //vos  #defines ou const int blablabla
 //unique à ce fichier
+#define MASK_CTL0 0x00000001
 
 /****************************************************************************
 	Extern content declaration :
@@ -66,6 +60,7 @@ extern far void vectors();   // Vecteurs d'interruption
 	Private global variables :
 ****************************************************************************/
 
+
 int output = 0x00;
 unsigned int input = 0x0000;
 int reception_micro = 0;
@@ -79,46 +74,10 @@ static GPIO_Handle lehandle;
 ****************************************************************************/
 
 //déclarer vos prototype de fonction ici
-//declaration de la fonction qui permet le controle du relais
-void init_ext_intr()
-{
-    /* Initialisation de la pin 4*/
-    lehandle = GPIO_open(GPIO_DEV0, GPIO_OPEN_RESET);
-    GPIO_pinEnable(lehandle, GPIO_PIN4);
-    GPIO_pinDirection(lehandle, GPIO_PIN4, GPIO_INPUT);
-    GPIO_intPolarity(lehandle, GPIO_GPINT4, GPIO_FALLING);
 
-    /* Initialisation de la pin 9*/
-    GPIO_pinEnable(lehandle, GPIO_PIN9);
-    GPIO_pinDirection(lehandle, GPIO_PIN9, GPIO_OUTPUT);
+void init_ext_intr();
+void controle_relais();
 
-    /* Initialisation de l'IRQ*/
-    IRQ_setVecs(vectors);
-    IRQ_globalEnable();
-    IRQ_nmiEnable();
-    IRQ_map(IRQ_EVT_EXTINT4,4);
-    IRQ_reset(IRQ_EVT_EXTINT4);
-    IRQ_enable(IRQ_EVT_EXTINT4);
-}
-
-void controle_relais()
-{
-    DIP3Stat=DSK6713_DIP_get(3);
-    if(DIP3Stat==1)
-    {
-        DSK6713_LED_on(2);
-        DSK6713_LED_off(3);
-        //
-        DSK6713_rset(DSK6713_DC_REG,  DSK6713_rget(DSK6713_DC_REG) | MASK_CTL0 );
-    }
-    else
-    {
-        DSK6713_LED_on(3);
-        DSK6713_LED_off(2);
-        //
-        DSK6713_rset(DSK6713_DC_REG,  DSK6713_rget(DSK6713_DC_REG) & ~MASK_CTL0 );
-    }
-}
 /****************************************************************************
 	Main Program :
 ****************************************************************************/
@@ -143,7 +102,42 @@ void main()
 /****************************************************************************
 	Main program private functions :
 ****************************************************************************/
-  
+void init_ext_intr()
+{
+    /* Initialisation de la pin 4*/
+    lehandle = GPIO_open(GPIO_DEV0, GPIO_OPEN_RESET);
+    GPIO_pinEnable(lehandle, GPIO_PIN4);
+    GPIO_pinDirection(lehandle, GPIO_PIN4, GPIO_INPUT);
+    GPIO_intPolarity(lehandle, GPIO_GPINT4, GPIO_FALLING);
+
+    /* Initialisation de l'IRQ*/
+    IRQ_setVecs(vectors);
+    IRQ_globalEnable();
+    IRQ_nmiEnable();
+    IRQ_map(IRQ_EVT_EXTINT4,4);
+    IRQ_reset(IRQ_EVT_EXTINT4);
+    IRQ_enable(IRQ_EVT_EXTINT4);
+}
+
+void controle_relais()
+{
+    unsigned int DIP3Stat;
+    DIP3Stat=DSK6713_DIP_get(3);
+    if(DIP3Stat==1)
+    {
+        DSK6713_LED_on(2);
+        DSK6713_LED_off(3);
+        // Écriture de l'état du relais
+        DSK6713_rset(DSK6713_DC_REG,  DSK6713_rget(DSK6713_DC_REG) | MASK_CTL0 );
+    }
+    else
+    {
+        DSK6713_LED_on(3);
+        DSK6713_LED_off(2);
+        // Écriture de l'état du relais
+        DSK6713_rset(DSK6713_DC_REG,  DSK6713_rget(DSK6713_DC_REG) & ~MASK_CTL0 );
+    }
+}
 
 /****************************************************************************
 	Main program interrupt service routines (ISR) :

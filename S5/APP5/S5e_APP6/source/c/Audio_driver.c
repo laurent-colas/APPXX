@@ -25,7 +25,7 @@
 
 extern far void vectors();   // Vecteurs d'interruption
 
-extern short output;
+extern int output;
 extern unsigned int input;
 extern int reception_micro;
 /****************************************************************************

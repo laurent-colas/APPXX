@@ -63,9 +63,6 @@ void SPI_init(void);
 
 // ajoutez vos prototype de fonction ici
 
-
-void initMCBSP();
-void masterSPIMCBSP();
 void SPI_Write(unsigned int data);
 unsigned int SPI_Read(void);
 

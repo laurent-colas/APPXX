@@ -21,6 +21,7 @@
 #include "SPI_driver.h"
 #include "SPI_Config.h"
 #include "dsk6713_aic23.h"
+#include "dsk6713_dip.h"
 #include "dsk6713.h"
 #include <stdbool.h>
 
@@ -56,7 +57,7 @@ extern MCBSP_Handle DSK6713_AIC23_CONTROLHANDLE;
 /****************************************************************************
 	Private global variables :
 ****************************************************************************/
-extern unsigned int output;
+extern int output;
 extern unsigned int input;
 extern int reception_micro;
 extern int reception_SPI;
@@ -75,16 +76,6 @@ extern GPIO_Handle lehandle;
 
 
 // Function description here ...
-void initMCBSP()
-{
-    MCBSP_config(DSK6713_AIC23_CONTROLHANDLE,&MCBSP0_SPI_Cfg_Init);
-}
-
-void masterSPIMCBSP()
-{
-    MCBSP_config(DSK6713_AIC23_CONTROLHANDLE,&MCBSP0_SPI_Cfg_Master);
-}
-
 void SPI_Write(unsigned int data)
 {
     while(!MCBSP_xrdy(DSK6713_AIC23_CONTROLHANDLE));
@@ -118,30 +109,30 @@ void SPI_init(void)
 
 void SPI_run(void)
 {
-    if (reception_SPI)
+    if (reception_SPI) // On a reçu du data par SPI
     {
         short data = 0;
-        // On a reçu du data par SPI
-        if(DSK6713_DIP_get(0) == 0)
+        if(DSK6713_DIP_get(0) == 0) // Avec companding
         {
             data = (short) ulaw2int((char) SPI_Read());
         }
-        else
+        else // Sans companding
         {
             data = ((short) SPI_Read()) << 8; // Centrer autour de 0
         }
-        output = data | data << 16;
+        output = 0x00000000 | data;
+        output |= output << 16;
         reception_SPI = 0;
     }
     if (reception_micro)
     {
         unsigned int data = 0;
         // On a du data à envoyer par SPI
-        if(DSK6713_DIP_get(0) == 0)
+        if(DSK6713_DIP_get(0) == 0) // Avec companding
         {
             data = int2ulaw((short) input) & 0x00000000FF;
         }
-        else
+        else // Sans Companding
         {
             data = input>>24 & 0x00000000FF;
         }
