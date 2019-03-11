@@ -35,10 +35,10 @@
 
 //#define something something_else
 
-#define SPI_WRITE_CONFIG 1
-#define SPI_READ_CONFIG 1
-#define SPI_WRITE_DATA 1
-#define SPI_READ_DATA 1
+#define SPI_WRITE_CONFIG 0xE440
+#define SPI_READ_CONFIG 0x0000
+#define SPI_WRITE_DATA 0x8200
+#define SPI_READ_DATA 0x00FF
 
 /***************************************************************************
 	Types declaration here :
@@ -59,7 +59,7 @@
 ***************************************************************************/
 
 // Function description here ...
-EXTERN void SPI_init(void);
+void SPI_init(void);
 
 // ajoutez vos prototype de fonction ici
 
@@ -67,7 +67,7 @@ EXTERN void SPI_init(void);
 void initMCBSP();
 void masterSPIMCBSP();
 void SPI_Write(char);
-char SPI_Read(void);
+unsigned char SPI_Read(void);
 
 #undef SPI_DRIVER_MODULE_IMPORT
 

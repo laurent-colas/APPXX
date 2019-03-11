@@ -25,6 +25,9 @@
 
 extern far void vectors();   // Vecteurs d'interruption
 
+extern unsigned char output;
+extern int input;
+extern int reception_micro;
 /****************************************************************************
 	Private macros and constants :
 ****************************************************************************/
@@ -57,7 +60,6 @@ extern far void vectors();   // Vecteurs d'interruption
 void Audio_init(void)
 {
     comm_intr(DSK6713_AIC23_FREQ_44KHZ,DSK6713_AIC23_INPUT_MIC);
-	return;
 }
 
 
@@ -67,14 +69,9 @@ void Audio_init(void)
 
 interrupt void c_int11(void)
 {
-    if(DSK6713_DIP_get(0) == 0){
-        int2ulaw(input_sample());
-    }
-
-    else if(DSK6713_DIP_get(0) == 1) {
-        input_sample();
-    }
-	return;
+    reception_micro = 1;
+    input = input_sample();
+    output_sample(output);
 }
 
 // end of Audio_driver.c
