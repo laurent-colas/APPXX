@@ -190,7 +190,7 @@ short input_right_sample()                  		//input to right channel
 }
 void comm_intr(Uint32 sample_rate, Uint16 inputsource)	//for communication/init using interrupt
 {
-	poll=0;                        	//0 since not polling
+    poll=0;                        	//0 since not polling
    IRQ_globalDisable();           	//disable interrupts
    CODEC_start(sample_rate,inputsource);     //c6713_dsk_init() 	init DSP and codec
 	CODECEventId=MCBSP_getXmtEventId(DSK6713_AIC23_codecdatahandle);//McBSP1 Xmit
