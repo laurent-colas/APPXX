@@ -35,6 +35,9 @@ short sine_table[8]={0,707,1000,707,0,-707,-1000,-707};
 
 //décmacation de la variale d'état de la DIP3
 unsigned int DIP3Stat;
+
+#define ADRESSE_CTL0 0x90080100
+#define MASK_CTL0 0x00000001
 /****************************************************************************
 	Private macros and constants :
 ****************************************************************************/
@@ -63,8 +66,8 @@ extern far void vectors();   // Vecteurs d'interruption
 	Private global variables :
 ****************************************************************************/
 
-unsigned char output = 0x00;
-int input = 0x0000;
+int output = 0x00;
+unsigned int input = 0x0000;
 int reception_micro = 0;
 int reception_SPI = 0;
 static GPIO_Handle lehandle;
@@ -105,13 +108,15 @@ void controle_relais()
     {
         DSK6713_LED_on(2);
         DSK6713_LED_off(3);
-        GPIO_pinWrite(lehandle,GPIO_PIN9,1);
+        //
+        DSK6713_rset(DSK6713_DC_REG,  DSK6713_rget(DSK6713_DC_REG) | MASK_CTL0 );
     }
     else
     {
         DSK6713_LED_on(3);
         DSK6713_LED_off(2);
-        GPIO_pinWrite(lehandle,GPIO_PIN9,0);
+        //
+        DSK6713_rset(DSK6713_DC_REG,  DSK6713_rget(DSK6713_DC_REG) & ~MASK_CTL0 );
     }
 }
 /****************************************************************************
@@ -120,7 +125,6 @@ void controle_relais()
 
 void main()
 {
-    char data;
     //initialisation des DIP et LED
     DSK6713_DIP_init();
     DSK6713_LED_init();

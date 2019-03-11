@@ -66,8 +66,8 @@ void SPI_init(void);
 
 void initMCBSP();
 void masterSPIMCBSP();
-void SPI_Write(char);
-unsigned char SPI_Read(void);
+void SPI_Write(unsigned int data);
+unsigned int SPI_Read(void);
 
 #undef SPI_DRIVER_MODULE_IMPORT
 

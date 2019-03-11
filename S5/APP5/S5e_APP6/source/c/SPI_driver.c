@@ -56,8 +56,8 @@ extern MCBSP_Handle DSK6713_AIC23_CONTROLHANDLE;
 /****************************************************************************
 	Private global variables :
 ****************************************************************************/
-extern unsigned char output;
-extern int input;
+extern unsigned int output;
+extern unsigned int input;
 extern int reception_micro;
 extern int reception_SPI;
 extern GPIO_Handle lehandle;
@@ -85,16 +85,16 @@ void masterSPIMCBSP()
     MCBSP_config(DSK6713_AIC23_CONTROLHANDLE,&MCBSP0_SPI_Cfg_Master);
 }
 
-void SPI_Write(char data)
+void SPI_Write(unsigned int data)
 {
     while(!MCBSP_xrdy(DSK6713_AIC23_CONTROLHANDLE));
-    MCBSP_write(DSK6713_AIC23_CONTROLHANDLE, data);
+    MCBSP_write(DSK6713_AIC23_CONTROLHANDLE, data | SPI_WRITE_DATA);
 }
 
-unsigned char SPI_Read(void)
+unsigned int SPI_Read(void)
 {
     while(!MCBSP_rrdy(DSK6713_AIC23_CONTROLHANDLE));
-    return MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
+    return MCBSP_read(DSK6713_AIC23_CONTROLHANDLE) & SPI_READ_DATA;
 }
 
 void SPI_init(void)
@@ -120,21 +120,30 @@ void SPI_run(void)
 {
     if (reception_SPI)
     {
+        short data = 0;
         // On a reçu du data par SPI
-        output = SPI_Read();
+        if(DSK6713_DIP_get(0) == 0)
+        {
+            data = (short) ulaw2int((char) SPI_Read());
+        }
+        else
+        {
+            data = ((short) SPI_Read()) << 8; // Centrer autour de 0
+        }
+        output = data | data << 16;
         reception_SPI = 0;
     }
     if (reception_micro)
     {
-        Uint8 data = 0;
+        unsigned int data = 0;
         // On a du data à envoyer par SPI
         if(DSK6713_DIP_get(0) == 0)
         {
-            data = int2ulaw(input);
+            data = int2ulaw((short) input) & 0x00000000FF;
         }
         else
         {
-            data = input>>8;
+            data = input>>24 & 0x00000000FF;
         }
         SPI_Write(data);
         reception_micro = 0;
