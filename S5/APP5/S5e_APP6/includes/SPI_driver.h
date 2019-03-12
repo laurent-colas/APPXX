@@ -36,7 +36,7 @@
 //#define something something_else
 
 #define SPI_WRITE_CONFIG 0xE440
-#define SPI_READ_CONFIG 0x0000
+#define SPI_READ_CONFIG 0x4001
 #define SPI_WRITE_DATA 0x8200
 #define SPI_READ_DATA 0x00FF
 
