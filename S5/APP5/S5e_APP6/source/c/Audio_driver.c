@@ -59,6 +59,7 @@ extern int reception_micro;
 // Function description here ...
 void Audio_init(void)
 {
+    // Initialisation du codec (44 kHz, micro)
     comm_intr(DSK6713_AIC23_FREQ_44KHZ,DSK6713_AIC23_INPUT_MIC);
 }
 
@@ -69,9 +70,9 @@ void Audio_init(void)
 
 interrupt void c_int11(void)
 {
-    reception_micro = 1;
-    input = input_sample();
-    output_sample(output);
+    reception_micro = 1;        // Flag
+    input = input_sample();     // Lecture
+    output_sample(output);      // Écriture
 }
 
 // end of Audio_driver.c

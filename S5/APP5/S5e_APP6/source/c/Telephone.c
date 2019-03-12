@@ -66,6 +66,10 @@ unsigned int input = 0x0000;
 int reception_micro = 0;
 int reception_SPI = 0;
 static GPIO_Handle lehandle;
+int Led_Flip = 0;
+int target = 0;
+int LastTarget = 0;
+int DIP1Stat_Last = 0;
 
 // Use static keyword here
 
@@ -121,8 +125,9 @@ void init_ext_intr()
 
 void controle_relais()
 {
-    unsigned int DIP3Stat;
+    unsigned int DIP3Stat,DIP1Stat;
     DIP3Stat=DSK6713_DIP_get(3);
+    DIP1Stat=DSK6713_DIP_get(1);
     if(DIP3Stat==1)
     {
         DSK6713_LED_on(2);
@@ -137,6 +142,11 @@ void controle_relais()
         // Écriture de l'état du relais
         DSK6713_rset(DSK6713_DC_REG,  DSK6713_rget(DSK6713_DC_REG) & ~MASK_CTL0 );
     }
+    if (DIP1Stat != DIP1Stat_Last)
+    {
+        Led_Flip = 1;
+    }
+    DIP1Stat_Last = DIP1Stat;
 }
 
 /****************************************************************************

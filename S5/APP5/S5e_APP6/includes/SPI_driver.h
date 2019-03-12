@@ -39,6 +39,10 @@
 #define SPI_READ_CONFIG 0x4001
 #define SPI_WRITE_DATA 0x8200
 #define SPI_READ_DATA 0x00FF
+#define ON_LED 0x0001
+#define OFF_LED 0x0000
+#define ADRESSE_LED 0x0001
+#define ADRESSE_MICRO 0x0010
 
 /***************************************************************************
 	Types declaration here :

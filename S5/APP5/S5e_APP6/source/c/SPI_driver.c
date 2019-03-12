@@ -22,6 +22,7 @@
 #include "SPI_Config.h"
 #include "dsk6713_aic23.h"
 #include "dsk6713_dip.h"
+#include "dsk6713_led.h"
 #include "dsk6713.h"
 #include <stdbool.h>
 
@@ -62,6 +63,9 @@ extern unsigned int input;
 extern int reception_micro;
 extern int reception_SPI;
 extern GPIO_Handle lehandle;
+extern int target;
+extern int LastTarget;
+extern int Led_Flip;
 
 /****************************************************************************
 	Private functions :
@@ -87,6 +91,20 @@ unsigned int SPI_Read(void)
     while(!MCBSP_rrdy(DSK6713_AIC23_CONTROLHANDLE));
     return MCBSP_read(DSK6713_AIC23_CONTROLHANDLE) & SPI_READ_DATA;
 }
+void readFromMicro(void)
+{
+    short data = 0;
+    if(DSK6713_DIP_get(0) == 0) // Avec companding
+    {
+        data = (short) ulaw2int((char) SPI_Read());
+    }
+    else // Sans companding
+    {
+        data = ((short) SPI_Read()) << 8; // Centrer autour de 0
+    }
+    output = 0x00000000 | data;
+    output |= output << 16;
+}
 
 void SPI_init(void)
 {
@@ -111,21 +129,33 @@ void SPI_run(void)
 {
     if (reception_SPI) // On a reçu du data par SPI
     {
-        short data = 0;
-        if(DSK6713_DIP_get(0) == 0) // Avec companding
+        target = SPI_Read();
+        if (target == ADRESSE_MICRO)
         {
-            data = (short) ulaw2int((char) SPI_Read());
+            LastTarget = ADRESSE_MICRO;
         }
-        else // Sans companding
+        else if (target == ADRESSE_LED)
         {
-            data = ((short) SPI_Read()) << 8; // Centrer autour de 0
+            LastTarget = ADRESSE_LED;
         }
-        output = 0x00000000 | data;
-        output |= output << 16;
+        else
+        {
+            if (LastTarget == ADRESSE_MICRO)
+            {
+                readFromMicro();
+            }
+            else if (LastTarget == ADRESSE_LED)
+            {
+                DSK6713_LED_toggle(1);
+            }
+            LastTarget = 0;
+        }
         reception_SPI = 0;
     }
     if (reception_micro)
     {
+        SPI_Write(ADRESSE_MICRO);
+        // Envoit provenant du micro
         unsigned int data = 0;
         // On a du data à envoyer par SPI
         if(DSK6713_DIP_get(0) == 0) // Avec companding
@@ -140,6 +170,13 @@ void SPI_run(void)
         reception_micro = 0;
     }
 
+    if (Led_Flip)
+    {
+        // Envoit provenant de la LED
+        SPI_Write(ADRESSE_LED);
+        SPI_Write(ON_LED);
+        Led_Flip = 0;
+    }
 }
 
 
