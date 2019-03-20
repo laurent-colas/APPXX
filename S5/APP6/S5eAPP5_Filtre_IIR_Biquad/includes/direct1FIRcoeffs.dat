@@ -1,0 +1,93 @@
+/***********************************************************************
+Coefficients du filtre FIR PASSE-HAUT
+    
+CODE MATLAB POUR CÉER UN FICHIER .DAT AVEC LES COEFFICIENTS DU FILTRE EN FORMAT Q15:
+
+% Générer les coeficients d'un filtre FIR passe-haut d'ordre 62 à coupure fc = 150Hz en format Q15
+fe = 8000;
+fc = 150;
+Ordre = 62;
+N = Ordre+1;
+coeff = fir1(Ordre, fc/(fe/2), 'high');
+freqz(coeff, 1, 512);
+coeff_q15 = round(coeff*2^15);
+
+% Écrire le fichier .dat
+fileID = fopen('direct1FIRcoeffs.dat','w');
+fprintf(fileID, '#define FIRNbCOEFFS %d\n', N);
+fprintf(fileID, 'const short CoeffsFIR[FIRNbCOEFFS] = {\n');
+for i=1:N-1
+    fprintf(fileID, '    %d,\n', coeff_q15(i));
+end
+fprintf(fileID, '    %d\n', coeff_q15(N));
+fprintf(fileID, '};\n');
+fclose(fileID);
+
+***********************************************************************/
+
+#define FIRNbCOEFFS 63
+const short CoeffsFIR[FIRNbCOEFFS] = {
+    13,
+    11,
+    9,
+    6,
+    2,
+    -4,
+    -13,
+    -26,
+    -42,
+    -64,
+    -91,
+    -124,
+    -164,
+    -210,
+    -262,
+    -320,
+    -384,
+    -453,
+    -526,
+    -601,
+    -678,
+    -755,
+    -831,
+    -904,
+    -973,
+    -1036,
+    -1092,
+    -1140,
+    -1179,
+    -1207,
+    -1224,
+    31553,
+    -1224,
+    -1207,
+    -1179,
+    -1140,
+    -1092,
+    -1036,
+    -973,
+    -904,
+    -831,
+    -755,
+    -678,
+    -601,
+    -526,
+    -453,
+    -384,
+    -320,
+    -262,
+    -210,
+    -164,
+    -124,
+    -91,
+    -64,
+    -42,
+    -26,
+    -13,
+    -4,
+    2,
+    6,
+    9,
+    11,
+    13
+};
