@@ -28,6 +28,12 @@
 #include "findErrAccordage.h"
 #include "fenetreHanning.h" // Fenêtre de Hanning pré-calculée
 #include "CONSTANTES.h"		  // Constantes partagées
+// Includes pour la FFT
+#include "twiddle_512.h"
+#include "DSPF_sp_cfftr2_dit.h"
+#include "DSPF_sp_bitrev_cplx.h"
+#include "DSPF_sp_icfftr2_dif.h"
+
 
 float findErrAccordage(float bloc[], float frqDesiree) {
 
@@ -47,7 +53,7 @@ float findErrAccordage(float bloc[], float frqDesiree) {
 	// Autocorrélation
 	//
 	// VOTRE **SOLUTION** D'AUTOCORRÉLATION PAR FFT REMPLACE LA PROCHAINE LIGNE!!!
-	faireAutocorr(bloc, autocorr);
+	faireAutocorr_fft(bloc, autocorr);
 	//
 	//
 
@@ -104,6 +110,60 @@ void faireAutocorr(float bloc[], float resultat[]) {
 	}
 
 	return;
+}
+
+void faireAutocorr_fft(float bloc[], float resultat[])
+{
+    int i;
+    float x_n[L_TAMPON*2];
+    float X_Z[L_TAMPON*4];
+    float real=0, imag=0;
+    short index[32];
+
+    // Générez les valeurs d’index en utilisant la fonction bitrev_index()
+    bitrev_index(index, L_TAMPON*2);
+
+    // Initialisation du signal d'entrée
+    for (i = 0; i < L_TAMPON; i++)
+    {
+        x_n[i] = bloc[i];
+    }
+    // Ajout des zéros au signal d'entrée
+    for (i = L_TAMPON; i < 2*L_TAMPON; i++)
+    {
+        x_n[i] = 0;
+    }
+
+    // Autocorrélation par fft
+    // Remplissez les cases paires du tableau de floats avec les valeurs de l'entrée et les cases impaires avec des 0.
+    for (i = 0; i < L_TAMPON*2;i++)
+    {
+        X_Z[2*i] = x_n[i];
+        X_Z[2*i+1] = 0.;
+    }
+
+    // Calculer la FFT
+    DSPF_sp_cfftr2_dit(X_Z, w, L_TAMPON*2);
+
+    // Inverse-bit
+    DSPF_sp_bitrev_cplx((double *)X_Z, index, L_TAMPON*2);
+
+    // multiplication dans le domaine fréquentiel
+    for (i = 0; i < L_TAMPON*2; i++)
+    {
+        real = -X_Z[i];
+        imag = -X_Z[i+1];
+
+        X_Z[i] = real*real - imag*imag;
+        X_Z[i] = 2*real*imag;
+        //Xm[n] = sqrt(TableCos3[2*n]*TableCos3[2*n] + TableCos3[2*n+1]*TableCos3[2*n+1]);
+    }
+
+    // Reverse-bit
+    DSPF_sp_bitrev_cplx((double *)X_Z, index, L_TAMPON*2);
+
+    // Calculer la iFFT
+    DSPF_sp_icfftr2_dif(X_Z, w, L_TAMPON*2);
 }
 
 /************************************************************************
