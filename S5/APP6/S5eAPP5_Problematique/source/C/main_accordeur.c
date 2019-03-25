@@ -51,6 +51,11 @@ float tamponEchFilt[L_TAMPON];			// Tampon d'échantillons
 int noEchFilt=0;						// Numéro de l'échantillon courant
 float errAccordement;				// Erreur sur l'accordement de l'instrument
 
+#define TAMPON_L  64
+#pragma DATA_ALIGN(tampon, TAMPON_L*2); // Requis pour l'adressage circulaire en assembleur
+short tampon[TAMPON_L]={0};         // Tampon d'échantillons
+short *pTampon=&tampon[TAMPON_L-1]; // Pointeur sur l'échantillon courant
+
 // VARIABLES GLOBALES POUR DSK
 Uint32 fs=DSK6713_AIC23_FREQ_8KHZ; 			 // Fréquence d'échantillonnage
 #define DSK6713_AIC23_INPUT_LINE 0x0011		 // Définition de l'entrée LINE IN
@@ -60,7 +65,7 @@ Uint16 inputsource=DSK6713_AIC23_INPUT_LINE; // Selection de l'entrée LINE IN
 #define DROIT  1 // Définition du haut-parleur droit
 union {Uint32 uint; short channel[2];} AIC23_data; // Pour contenir les deux signaux
 
-void main() 
+void main()
 {
 	afficherMenu();		// Affichage du menu principal à l'écran
 	initAccordeur();	// Initialisations des variables et du hardware
@@ -99,8 +104,8 @@ void attendre(float seconds)
 interrupt void c_int11() 
 {
 	float echOut; 		 // Amplitude de l'échantillon générée pour l'écoute d'une note
-	short echLineIn;	 // Ampliutde de l'échantillon provenant de l'entrée LINE IN
-	short echLineInFilt; // Ampliutde de l'échantillon filtré
+	short echLineIn;	 // Amplitude de l'échantillon provenant de l'entrée LINE IN
+	short echLineInFilt; // Amplitude de l'échantillon filtré
 	short pwm[10] = {0,0,0,0,0,0,0,0,25,25}; // Pulse width modulation
 	int debugFiltres = 0;
 	static int n = 0;
@@ -110,7 +115,8 @@ interrupt void c_int11()
 
 	//
 	// VOTRE **SOLUTION** DE FILTRAGE FIR + IIR REMPLACE LA PROCHAINE LIGNE!!!
-	echLineInFilt = echLineIn;
+	//echLineInFilt = echLineIn;
+	pTampon = FIR_ASM(pTampon, echLineIn, coef, &echLineInFilt);
 	//
 	//
 
@@ -198,7 +204,6 @@ void afficherMenu()
 		printf ("\n DIP 3 : Écouter la note de la corde");
 		printf ("\n \n NOTE : Le numéro de la corde sélectionnée est affiché en binaire sur les LEDs. \n");
 
-	return;
 }
 
 /********************************************************************************************
