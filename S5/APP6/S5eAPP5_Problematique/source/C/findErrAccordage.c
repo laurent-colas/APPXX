@@ -54,6 +54,7 @@ float findErrAccordage(float bloc[], float frqDesiree) {
 	//
 	// VOTRE **SOLUTION** D'AUTOCORRÉLATION PAR FFT REMPLACE LA PROCHAINE LIGNE!!!
 	faireAutocorr_fft(bloc, autocorr);
+	//faireAutocorr(bloc, autocorr);
 	//
 	//
 
@@ -117,11 +118,7 @@ void faireAutocorr_fft(float bloc[], float resultat[])
     int i;
     float x_n[L_TAMPON*2];
     float X_Z[L_TAMPON*4];
-    float real=0, imag=0;
     short index[32];
-
-    // Générez les valeurs d’index en utilisant la fonction bitrev_index()
-    bitrev_index(index, L_TAMPON*2);
 
     // Initialisation du signal d'entrée
     for (i = 0; i < L_TAMPON; i++)
@@ -146,24 +143,28 @@ void faireAutocorr_fft(float bloc[], float resultat[])
     DSPF_sp_cfftr2_dit(X_Z, w, L_TAMPON*2);
 
     // Inverse-bit
+    bitrev_index(index, L_TAMPON*2);
     DSPF_sp_bitrev_cplx((double *)X_Z, index, L_TAMPON*2);
 
     // multiplication dans le domaine fréquentiel
-    for (i = 0; i < L_TAMPON*2; i++)
+    for (i = 0; i < L_TAMPON*4; i+=2)
     {
-        real = -X_Z[i];
-        imag = -X_Z[i+1];
-
-        X_Z[i] = real*real - imag*imag;
-        X_Z[i] = 2*real*imag;
-        //Xm[n] = sqrt(TableCos3[2*n]*TableCos3[2*n] + TableCos3[2*n+1]*TableCos3[2*n+1]);
+        X_Z[i] = X_Z[i]*X_Z[i] + X_Z[i+1]*X_Z[i+1];
+        X_Z[i+1] = 0.;
     }
+
+    // Calculer la iFFT
+    // On utilise la méthode 1 en prenant le conjugué complexe
+    DSPF_sp_cfftr2_dit(X_Z, w, L_TAMPON*2);
 
     // Reverse-bit
     DSPF_sp_bitrev_cplx((double *)X_Z, index, L_TAMPON*2);
 
-    // Calculer la iFFT
-    DSPF_sp_icfftr2_dif(X_Z, w, L_TAMPON*2);
+    // Écriture du résultat, on enlève les valeurs imaginaires
+    for (i=0; i<L_TAMPON; i++)
+    {
+        resultat[i] = X_Z[2*i]/(L_TAMPON*2);
+    }
 }
 
 /************************************************************************
