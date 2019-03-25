@@ -27,7 +27,7 @@
 #include "genCos.h"
 
 
-const float PI = 3.14159265358979;
+extern float PI;
 
 /***********************************************************
  Permet de garder l'angle entre 0 et 2pi

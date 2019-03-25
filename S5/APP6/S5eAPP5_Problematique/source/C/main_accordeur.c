@@ -38,6 +38,7 @@
 #include "dsk6713_dip.h"
 #include "dsk6713_led.h"
 #include "genCos.h"
+#include "genCosM2.h"
 #include "findErrAccordage.h"
 #include "getNewCommand.h"
 #include "C6713Helper_UdeS.h"
