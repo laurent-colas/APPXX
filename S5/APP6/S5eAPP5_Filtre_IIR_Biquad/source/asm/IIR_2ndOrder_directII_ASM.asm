@@ -14,7 +14,23 @@ sat_24 .int 16777216
 _IIR_2ndOrder_directII_ASM:
 	.asmfunc
 
-	MVK 13, A14
+	STW B5, *B15--[2]
+	MVC AMR, B5
+	STW B5, *B15--[2]
+	STW A0, *B15--[2]
+	STW A1, *B15--[2]
+	STW A7, *B15--[2]
+	STW A8, *B15--[2]
+	STW A9, *B15--[2]
+	STW A10, *B15--[2]
+	STW A11, *B15--[2]
+	STW A12, *B15--[2]
+	STW A13, *B15--[2]
+	STW B0, *B15--[2]
+	STW B1, *B15--[2]
+	STW B7, *B15--[2]
+	STW B9, *B15--[2]
+
 	MVKL 0x00000010, A1
 	MVKH 0x00000010, A1
 
@@ -159,6 +175,39 @@ End1:
 	LDW *B4[0], B6
 	NOP 4
 	STW B6, *B4[1]
+
+
+	LDW *++B15[2], B9
+	NOP 5
+	LDW *++B15[2], B7
+	NOP 5
+	LDW *++B15[2], B1
+	NOP 5
+	LDW *++B15[2], B0
+	NOP 5
+	LDW *++B15[2], A13
+	NOP 5
+	LDW *++B15[2], A12
+	NOP 5
+	LDW *++B15[2], A11
+	NOP 5
+	LDW *++B15[2], A10
+	NOP 5
+	LDW *++B15[2], A9
+	NOP 5
+	LDW *++B15[2], A8
+	NOP 5
+	LDW *++B15[2], A7
+	NOP 5
+	LDW *++B15[2], A1
+	NOP 5
+	LDW *++B15[2], A0
+	NOP 5
+	LDW *++B15[2], B5
+	NOP 5
+	MVC B5, AMR
+	LDW *++B15[2], B5
+	NOP 5
 
 	B B3
 	NOP 5

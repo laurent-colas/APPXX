@@ -29,7 +29,7 @@ DESCRIPTION : Appeler des filtres IIR d'ordre 2 pour faire une cascade de filtre
 ***********************************************************************************/
 short filtrerCascadeIIR(int noCorde, short x)
 {
-	int n, ligne, temp;
+	int n, ligne;
 	int y;
 
 	y = x;

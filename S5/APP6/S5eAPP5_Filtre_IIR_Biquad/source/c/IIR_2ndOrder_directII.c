@@ -44,7 +44,6 @@ int IIR_2ndOrder_directII(int x, int w[], const short C[])
 	int y;
 	int memA, memB, memC;	// Mémoire pour entier de 32 bits
 	long lmem;  			// Mémoire pour entier de 40 bits (max. du DSP en point-fixe)
-	long temp, temp_x;
 	/*******************************************************************************
 	w(n) = a0*x(n)-a1*w(n-1)-a2*w(n-2)
 	*******************************************************************************/
@@ -54,7 +53,7 @@ int IIR_2ndOrder_directII(int x, int w[], const short C[])
 	x = sat_25bits(x);
 	//x = IIR_sat_25bits_ASM(x);
 	// a0*x(n)
-	lmem = fonction_mtlp(x, C[3]);
+//	lmem = fonction_mtlp(x, C[3]);
 	lmem = (long)C[3]*(long)x;			// Format 2Q13 x 11Q13 = 13Q26  (format fractionnaire)
 		// NOTEZ QUE LE FORMAT 13Q26 EST À L'INTÉRIEUR DES 40 BITS DE LA VARIABLE lmem
 //	memA = fonction_shift_int(lmem);
