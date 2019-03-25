@@ -14,5 +14,7 @@
 int IIR_2ndOrder_directII(int x, int w[], const short C[]);
 int IIR_2ndOrder_directIIASM(int x, int w[], const short C[]);
 int IIR_sat_25bits_ASM(int x);
+long fonction_mtlp(int x, short C);
+int fonction_shift_int(long mem);
 
 #endif /* IIR_2NDORDER_DIRECTII_H */

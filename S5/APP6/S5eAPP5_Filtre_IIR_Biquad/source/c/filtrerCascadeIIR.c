@@ -29,18 +29,17 @@ DESCRIPTION : Appeler des filtres IIR d'ordre 2 pour faire une cascade de filtre
 ***********************************************************************************/
 short filtrerCascadeIIR(int noCorde, short x)
 {
-	int n, ligne;
+	int n, ligne, temp;
 	int y;
 
 	y = x;
 
 	// Pour chacune des sections d'ordre 2 du filtre
 	for (n=0; n<IIR_NB_ORDRE2[noCorde-1]; n++) {
-
 		// filtrage par le IIR biquad de structure direct II
 		ligne = IIR_NO_LIGNE[noCorde-1]+n; 
-	//	y = IIR_2ndOrder_directII_ASM(y, &IIR_W[n][0], &IIR_COEFFS[ligne][0]); // y->15Q13
-		y = IIR_2ndOrder_directII(y, &IIR_W[n][0], &IIR_COEFFS[ligne][0]); // À CODER
+		y = IIR_2ndOrder_directII_ASM(y, &IIR_W[n][0], &IIR_COEFFS[ligne][0]); // y->15Q13
+//		y = IIR_2ndOrder_directII(y, &IIR_W[n][0], &IIR_COEFFS[ligne][0]); // À CODER
 	}
 
 	// Appliquer le gain global
