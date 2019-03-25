@@ -87,7 +87,7 @@ Description : Code executé à toutes les interruptions
 ********************************************************************************************/
 interrupt void c_int11()
 {
-	static int inputInterne = 1, FIR_ASM = 0, FLT_IIR = 0;
+	static int inputInterne = 0, FIR_ASM = 0, FLT_IIR = 1;
 	short x, xFIR, y;
 	static int n=1;
 

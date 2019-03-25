@@ -12,5 +12,7 @@
 #define IIR_2NDORDER_DIRECTII_H_
 
 int IIR_2ndOrder_directII(int x, int w[], const short C[]);
+int IIR_2ndOrder_directIIASM(int x, int w[], const short C[]);
+int IIR_sat_25bits_ASM(int x);
 
 #endif /* IIR_2NDORDER_DIRECTII_H */

@@ -10,6 +10,7 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
+"./source/asm/IIR_2ndOrder_directII_ASM.obj" \
 "./source/asm/Vectors_intr.obj" \
 "./source/asm/direct1FIR_ASM.obj" \
 "./source/c/C6713Helper_UdeS.obj" \
@@ -146,16 +147,16 @@ all: S5eAPP5_Filtre_IIR_Biquad.out
 S5eAPP5_Filtre_IIR_Biquad.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C6000 Linker'
-	"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/bin/cl6x" -mv6700 --abi=coffabi -g --define=CHIP_6713 --diag_warning=225 --diag_wrap=off --display_error_number --mem_model:const=far --mem_model:data=far -z -m"S5eAPP5_Filtre_IIR_Biquad.map" --stack_size=0x1000 --heap_size=0x1000 -i"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/lib" -i"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/include" --reread_libs --diag_suppress=16002 --warn_sections --display_error_number --diag_wrap=off --xml_link_info="S5eAPP5_Filtre_IIR_Biquad_linkInfo.xml" --rom_model -o "S5eAPP5_Filtre_IIR_Biquad.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/bin/cl6x" -mv6700 --abi=coffabi -g --define=CHIP_6713 --diag_wrap=off --display_error_number --diag_warning=225 --mem_model:data=far --mem_model:const=far -z -m"S5eAPP5_Filtre_IIR_Biquad.map" --stack_size=0x1000 --heap_size=0x1000 -i"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/lib" -i"C:/ti/ccsv7/tools/compiler/c6000_7.4.20/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --diag_suppress=16002 --xml_link_info="S5eAPP5_Filtre_IIR_Biquad_linkInfo.xml" --rom_model -o "S5eAPP5_Filtre_IIR_Biquad.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "source\asm\Vectors_intr.obj" "source\asm\direct1FIR_ASM.obj" "source\c\C6713Helper_UdeS.obj" "source\c\IIR_2ndOrder_directII.obj" "source\c\direct1FIR.obj" "source\c\filtrerCascadeIIR.obj" "source\c\main_filtre_IIR_Biquad.obj" 
+	-$(RM) "source\asm\IIR_2ndOrder_directII_ASM.obj" "source\asm\Vectors_intr.obj" "source\asm\direct1FIR_ASM.obj" "source\c\C6713Helper_UdeS.obj" "source\c\IIR_2ndOrder_directII.obj" "source\c\direct1FIR.obj" "source\c\filtrerCascadeIIR.obj" "source\c\main_filtre_IIR_Biquad.obj" 
 	-$(RM) "source\c\C6713Helper_UdeS.d" "source\c\IIR_2ndOrder_directII.d" "source\c\direct1FIR.d" "source\c\filtrerCascadeIIR.d" "source\c\main_filtre_IIR_Biquad.d" 
-	-$(RM) "source\asm\Vectors_intr.d" "source\asm\direct1FIR_ASM.d" 
+	-$(RM) "source\asm\IIR_2ndOrder_directII_ASM.d" "source\asm\Vectors_intr.d" "source\asm\direct1FIR_ASM.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

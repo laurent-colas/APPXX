@@ -52,7 +52,7 @@ int IIR_2ndOrder_directII(int x, int w[], const short C[])
 	/* Saturation de l'entrée à 25 bits pour ne pas dépasser le format 11Q13 
 	  (nécessaire pour que les opérations qui suivent ne dépassent pas 40 bits) */
 	x = sat_25bits(x);
-
+	//x = IIR_sat_25bits_ASM(x);
 	// a0*x(n)
 	lmem = (long)C[3]*(long)x;			// Format 2Q13 x 11Q13 = 13Q26  (format fractionnaire)
 		// NOTEZ QUE LE FORMAT 13Q26 EST À L'INTÉRIEUR DES 40 BITS DE LA VARIABLE lmem
