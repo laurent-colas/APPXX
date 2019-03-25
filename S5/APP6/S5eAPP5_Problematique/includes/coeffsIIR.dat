@@ -1,0 +1,54 @@
+/* coeffsIIR.dat */
+/*
+  Créateur:    
+  Date:        
+  Revisions:   
+
+  DESCRIPTION : 
+     Information pour le fonctionnement du filtre IIR biquad
+*/	
+#ifndef COEFFSIIR_H_
+#define COEFFSIIR_H_
+
+#define IIR_NB_COEFFS 6			// Nombre total de coeffcients a & b (b0 b1 b2 a0 a1 a2)
+#define IIR_NB_FILTRES 6		// Nombre de filtres
+#define IIR_NB_SECTIONS_MAX 2	// nb de sections d'ordre 2 du plus gros filtre
+
+/* Coefficients a et b des filtres IIR d'ordre 2
+   ordre : b0 b1 b2 a0 a1 a2
+   format : 2Q13 */
+const short IIR_COEFFS[][IIR_NB_COEFFS] = {
+// 1er filtre MI2 (ordre 4, ripple de 3dB, fc = 1.5 x 82.407Hz, fe = 8000 Hz)
+        {15, 30, 15, 8192, -16048, 7871},
+		{2048, 4097, 2048, 8192, -16181, 8058},
+		{26, 53, 26, 8192, -15932, 7767},
+		{2056, 4111, 2055, 8192, -16083, 8014},
+		{47, 93, 47, 8192, -15774, 7629},
+		{2061, 4121, 2061, 8192, -15929, 7955},	
+// 4e filtre SOL3
+		{82, 165, 82, 8192, -15558, 7448},
+		{2068, 4136, 2068, 8192, -15685, 7878},	
+// 5e filtre SI3
+		{129, 258, 129, 8192, -15327, 7265},
+		{2085, 4169, 2085, 8192, -15384, 7801},		
+// 6e filtre MI4
+		{224, 448, 224, 8192, -14939, 6975},
+		{2115, 4230, 2115, 8192, -14799, 7678},
+	// À COMPLÉTER (NOTE : RESPECTEZ LE FORMAT 2Q13 ET METTRE LES VALEURS EN DÉCIMALE)
+        };
+
+/* Numéro de ligne de COEFFS_F correspondant à la première section d'ordre 2
+   pour chacun des filtres */
+const short IIR_NO_LIGNE[IIR_NB_FILTRES] = {0, 2, 4, 6, 8, 10};
+
+// Gain global de chacun des filtres (format : 2Q13)
+const short IIR_GAINS[IIR_NB_FILTRES] = {12, 22, 38, 68, 106, 187}; // À COMPLÉTER
+
+// Nombre de filtre d'ordre 2 pour chacune des 6 cascades de filtre
+const short IIR_NB_ORDRE2[IIR_NB_FILTRES] = {2,2,2,2,2,2};
+
+// Variables intermédiaires
+#pragma DATA_ALIGN(IIR_W, 4);   // Alignement (int possède 4 octets)
+int IIR_W[IIR_NB_SECTIONS_MAX][3] = {0}; 
+
+#endif /* COEFFSIIR_H */
