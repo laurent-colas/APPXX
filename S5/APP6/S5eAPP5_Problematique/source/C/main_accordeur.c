@@ -115,7 +115,7 @@ interrupt void c_int11()
 	short echLineIn;	 // Amplitude de l'échantillon provenant de l'entrée LINE IN
 	short echLineInFilt; // Amplitude de l'échantillon filtré
 	short pwm[10] = {0,0,0,0,0,0,0,0,25,25}; // Pulse width modulation
-	int debugFiltres = 1;
+	int debugFiltres = 0;
 	static int n = 0;
 
 	// Capture de l'échantillon provenant de l'entrée "IN"
