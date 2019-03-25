@@ -49,7 +49,13 @@ const float F0_NOMINAL[NB_CORDES] = // Fréquences fondamentales de chacune des c
      { 82.407,110.000,146.832,195.998,246.942,329.628 };
 float tamponEchFilt[L_TAMPON];			// Tampon d'échantillons
 int noEchFilt=0;						// Numéro de l'échantillon courant
-float errAccordement;				// Erreur sur l'accordement de l'instrument
+float errAccordement;	
+
+// Variable globale pour la génération de signal
+const int fe = 8000;
+const float PI = 3.14159265358979;
+extern struct complx C_delta[NB_CORDES];
+extern int nb[NB_CORDES];			// Erreur sur l'accordement de l'instrument
 
 #define TAMPON_L  64
 #pragma DATA_ALIGN(tampon, TAMPON_L*2); // Requis pour l'adressage circulaire en assembleur
@@ -67,6 +73,7 @@ union {Uint32 uint; short channel[2];} AIC23_data; // Pour contenir les deux sig
 
 void main()
 {
+	initGenM2();
 	afficherMenu();		// Affichage du menu principal à l'écran
 	initAccordeur();	// Initialisations des variables et du hardware
 
@@ -131,10 +138,10 @@ interrupt void c_int11()
 	// Si une écoute est demandée, sortir l'amplitude sur le canal droit
 	if (Commandes.isPlay) {
 		// Générer l'échantillon audio pour écouter la tonalité de la corde
-		echOut = genFrqCos(Commandes.noCorde, Commandes.isPlay);
+		//echOut = genFrqCos(Commandes.noCorde, Commandes.isPlay);
 
 		// VOTRE **SOLUTION**, À VOUS DE CODER CETTE FONCTION
-//		echOut = genFrq_methode2(Commandes.noCorde, Commandes.isPlay);	
+		echOut = genFrq_methode2(Commandes.noCorde, Commandes.isPlay);	
 
 		// Assigner l'échantillon au canal droit de la sortie HEADPHONE
 		AIC23_data.channel[DROIT] =  (short)(1000*echOut);
@@ -339,7 +346,27 @@ float  genFrq_methode2(int noCorde, int isPlay)
 	// Vous devez aussi créer un fichier .dat
 	// Inspérez-vous de la fonction genFrq_cos(...)
 	/*==========================================================================*/
-	return 0;
+
+    float echAmp;                       // Amplitude de l'échantillon
+    static int memIsPlay = 0;           // Mémoire de isPlay
+    static struct complx vecteur_tourn;            // vecteur tournant
+    static int incr = 0;
+
+    if (isPlay == 1 && memIsPlay == 0){    // Si c'est le début d'une écoute de note
+        vecteur_tourn.real = 1;
+        vecteur_tourn.img = 0;
+        incr = 0;
+    }
+
+    if(incr >= nb[noCorde-1]){
+        vecteur_tourn.real = 1;
+        vecteur_tourn.img = 0;
+        incr = 0;
+    }
+
+    echAmp = genCosM2(C_delta[noCorde-1],&vecteur_tourn);
+    memIsPlay = isPlay;
+    incr++;
+    return echAmp;
 
 }
-
