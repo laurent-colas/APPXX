@@ -123,12 +123,10 @@ void faireAutocorr_fft(float bloc[], float resultat[])
     // Initialisation du signal d'entrée
     for (i = 0; i < L_TAMPON; i++)
     {
+        // Initialisation du signal d'entrée
         x_n[i] = bloc[i];
-    }
-    // Ajout des zéros au signal d'entrée
-    for (i = L_TAMPON; i < 2*L_TAMPON; i++)
-    {
-        x_n[i] = 0;
+        // Ajout des zéros au signal d'entrée
+        x_n[i+L_TAMPON] = 0;
     }
 
     // Autocorrélation par fft
@@ -144,6 +142,7 @@ void faireAutocorr_fft(float bloc[], float resultat[])
 
     // Inverse-bit
     bitrev_index(index, L_TAMPON*2);
+
     DSPF_sp_bitrev_cplx((double *)X_Z, index, L_TAMPON*2);
 
     // multiplication dans le domaine fréquentiel

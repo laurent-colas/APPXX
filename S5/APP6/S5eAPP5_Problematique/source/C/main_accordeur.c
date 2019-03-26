@@ -42,6 +42,7 @@
 #include "findErrAccordage.h"
 #include "getNewCommand.h"
 #include "C6713Helper_UdeS.h"
+#include "filtrerCascadeIIR.h"
 
 
 // VARIABLES GLOBALES

@@ -51,21 +51,18 @@ int IIR_2ndOrder_directII(int x, int w[], const short C[])
     /* Saturation de l'entrée à 25 bits pour ne pas dépasser le format 11Q13
       (nécessaire pour que les opérations qui suivent ne dépassent pas 40 bits) */
     x = sat_25bits(x);
-    //x = IIR_sat_25bits_ASM(x);
+
     // a0*x(n)
-//  lmem = fonction_mtlp(x, C[3]);
     lmem = (long)C[3]*(long)x;          // Format 2Q13 x 11Q13 = 13Q26  (format fractionnaire)
         // NOTEZ QUE LE FORMAT 13Q26 EST À L'INTÉRIEUR DES 40 BITS DE LA VARIABLE lmem
-//  memA = fonction_shift_int(lmem);
+
     memA = (int)(lmem>>13);             // Format 13Q13  (équivalent à un décalage de 13 bits)
 
 
     // a1*w(n-1)
-//  lmem = fonction_mtlp(w[1], C[4]);
     lmem = (long)C[4]*(long)w[1];       // Format 2Q13 x 11Q13 = 13Q26
 
 
-//  memB = fonction_shift_int(lmem);
     memB = (int)(lmem>>13);             // Format 13Q13
 
 

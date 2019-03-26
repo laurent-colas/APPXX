@@ -38,6 +38,7 @@ short filtrerCascadeIIR(int noCorde, short x)
     for (n=0; n<IIR_NB_ORDRE2[noCorde-1]; n++) {
         // filtrage par le IIR biquad de structure direct II
         ligne = IIR_NO_LIGNE[noCorde-1]+n;
+        // en parametre on lui donne le signal recus y, les variables intermediaire et les coefficients du filtres
         y = IIR_2ndOrder_directII_ASM(y, &IIR_W[n][0], &IIR_COEFFS[ligne][0]); // y->15Q13
 //        y = IIR_2ndOrder_directII(y, &IIR_W[n][0], &IIR_COEFFS[ligne][0]); // À CODER
     }
