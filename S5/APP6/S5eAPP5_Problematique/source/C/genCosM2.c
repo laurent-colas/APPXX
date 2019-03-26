@@ -47,7 +47,7 @@ void initGenM2(){
     // créaction du signal et écriture dans un fichier "CosM2.dat"
     int m = 0;
     int i = 0;
-
+    float out = 0;
     file = fopen("CosM2.dat","w2");
     for(m = 0; m <= NB_CORDES-1 ; m++){
         struct complx VT[nb_max];
@@ -59,7 +59,8 @@ void initGenM2(){
         for(i = 1; i <= nb[m]-1 ; i++){
             VT[i].real = VT[i-1].real*C_delta[m].real - VT[i-1].img*C_delta[m].img;
             VT[i].img = VT[i-1].img*C_delta[m].real + VT[i-1].real*C_delta[m].img;
-            fprintf(file, "%f, %s",VT[i].real,"\n");
+            out  = (VT[i].real)/(sqrt((VT[i].real*VT[i].real)+(VT[i].img*VT[i].img)));
+            fprintf(file, "%f, %s",out,"\n");
         }
         fprintf(file, "%s, %s", "====================" ,"\n");
     }
