@@ -42,7 +42,6 @@
 #include "findErrAccordage.h"
 #include "getNewCommand.h"
 #include "C6713Helper_UdeS.h"
-#include "filtrerCascadeIIR.h"
 
 
 // VARIABLES GLOBALES
@@ -59,7 +58,7 @@ const float PI = 3.14159265358979;
 extern struct complx C_delta[NB_CORDES];
 extern int nb[NB_CORDES];			// Erreur sur l'accordement de l'instrument
 
-#define TAMPON_L  64
+#define TAMPON_L  256
 #pragma DATA_ALIGN(tampon, TAMPON_L*2); // Requis pour l'adressage circulaire en assembleur
 short tampon[TAMPON_L]={0};         // Tampon d'échantillons
 short *pTampon=&tampon[TAMPON_L-1]; // Pointeur sur l'échantillon courant
@@ -116,7 +115,7 @@ interrupt void c_int11()
 	short echLineIn;	 // Amplitude de l'échantillon provenant de l'entrée LINE IN
 	short echLineInFilt; // Amplitude de l'échantillon filtré
 	short pwm[10] = {0,0,0,0,0,0,0,0,25,25}; // Pulse width modulation
-	int debugFiltres = 0;
+	int debugFiltres = 1;
 	static int n = 0;
 
 	// Capture de l'échantillon provenant de l'entrée "IN"

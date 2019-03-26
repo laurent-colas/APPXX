@@ -32,8 +32,8 @@ _FIR_ASM
 	STW	B5,*B15--[2]
 
 ; Ajuster le registre AMR
-	MVKL 0x00C08000, B9	; Utiliser B7 comme pointeur avec BK1 comme compteur vers
-	MVKH 0x00C08000, B9	; Le tampon contient 64 échantillons de 16 bits chacuns, donc 128 octets (2 X 64)
+	MVKL 0x01008000, B9	; Utiliser B7 comme pointeur avec BK1 comme compteur vers
+	MVKH 0x01008000, B9	; Le tampon contient 64 échantillons de 16 bits chacuns, donc 512 octets (2 X 256)
 	MVC B9, AMR
 
 ; Charger l'adresse de l'échantillon précédent du tampon dans B7
@@ -46,13 +46,12 @@ _FIR_ASM
 	MV B7, A4
 
 ; Longueur du filtre, N (ordre + 1, valeur impaire puisque c'est un passe-haut symétrique)
-	MVK 63, A1
+	MVK 255, A1
 
 ; Initialisation y[n]=0
 	ZERO A11;
 
-;Initialisation de k=0
-	ZERO A0
+
 
 
 ;**********************************************************************
@@ -76,8 +75,6 @@ BoucleK
 	NOP 1
 
 	ADD B3, A11, A11 ;A11 (y[n]) = y[n] + x[n-k]*h[k]
-
-	ADD A0, 1, A0 ; k = k+1
 
 	[A1] B BoucleK
 	NOP 5
