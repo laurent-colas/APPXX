@@ -50,12 +50,11 @@ end
 %% Changement de cadance
 cd('C:\Users\berth\OneDrive\Documents\Git\app\S5\APP7'); 
 
-[parole,fe1] = audioread('parole_propre_12kHz.wav');
+[parole_propre,fe1] = audioread('parole_propre_12kHz.wav');
 [bruit_ambiant,fe2] = audioread('bruit_ambiant_16kHz.wav');
 
-
 [L,K] = rat(fe2/fe1);
-x = parole;
+x = parole_propre;
 u1 = zeros(L*numel(x),1);
 
 for i = 1:numel(x)
@@ -72,6 +71,24 @@ hold on
 freqz(u2)
 
 y = u2(1:K:end);
+
+
+%% Ajout de bruit
+
+parole = y;
+bruit = bruit_ambiant(1:numel(parole));
+
+gain_0 = sqrt((sum(parole.^2))./((10.^(0/10))*(sum(bruit.^2))));
+gain_5 = sqrt((sum(parole.^2))./((10.^(5/10))*(sum(bruit.^2))));
+gain_10 = sqrt((sum(parole.^2))./((10.^(10/10))*(sum(bruit.^2))));
+
+s_0 = parole + gain_0*bruit;
+s_5 = parole + gain_5*bruit;
+s_10 = parole + gain_10*bruit;
+
+RSB_0 = 10*log10(sum(parole.^2)/sum(s_0.^2));
+RSB_5 = 10*log10(sum(parole.^2)/sum(s_5.^2));
+RSB_10 = 10*log10(sum(parole.^2)/sum(s_10.^2));
 
 
 
