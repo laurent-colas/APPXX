@@ -28,30 +28,50 @@ bruit_estime = filter(h_opt,[1,0],bruit_emis);
 err = sum((bruit_estime - bruit_capte).^2);
 %%
 pas = 1000;
-i = m-pas;
+i = 1;
 while err > 0.5
 h_opt = linsolve(A(1:i,1:i),b(1:i));  
 bruit_estime = filter(h_opt,[1,0],bruit_emis);
 err = sum((bruit_estime - bruit_capte).^2)
-
     if err < 0.5
         if pas == 1
+            i = i-pas
             break;
         else
-        i = i+pas;
+        i = i-pas;
         err = 1;
         pas = pas/10;
         end
     end
-i = i-pas
+i = i+pas
 end
 
 
-%%
+%% Changement de cadance
+cd('C:\Users\berth\OneDrive\Documents\Git\app\S5\APP7'); 
+
+[parole,fe1] = audioread('parole_propre_12kHz.wav');
+[bruit_ambiant,fe2] = audioread('bruit_ambiant_16kHz.wav');
+
+
+[L,K] = rat(fe2/fe1);
+x = parole;
+u1 = zeros(L*numel(x),1);
+
+for i = 1:numel(x)
+    u1(L*i) = x(i);
+end
+
+[b,a] = fir1(10000,1/L,'low');
+
+u2 = filter(b,a,u1);
+
 figure
-plot(h_bert(1:numel(h_opt)))
+freqz(u1)
 hold on 
-plot(normal(h_opt))
-plot(abs(h_bert(1:numel(h_opt))-normal(h_opt)))
+freqz(u2)
+
+y = u2(1:K:end);
+
 
 
