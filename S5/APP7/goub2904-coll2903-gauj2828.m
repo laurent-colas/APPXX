@@ -181,7 +181,6 @@ h_n_ph = [h_negatif_ph h_n0_ph h_n_ph];
 
 h_n_bande = conv(h_n_pb, h_n_ph);
 
-
 figure
 stem(h_n_bande)
 
@@ -264,17 +263,25 @@ Rp = 0.5;
 Rs = 40;
 
 [n_elli,Wp_elli] = ellipord(Wp,Ws,Rp,Rs);
-[z_elli,p_elli,k_elli] = ellip(n_elli,Rp,Rs,Wp_elli);
 [b_elli,a_elli] = ellip(n_elli,Rp,Rs,Wp_elli);
-sos_elli = zp2sos(z_elli,p_elli,k_elli);
 
-%2) Moins d’oscillations possibles dans la bande => buttord
+
+%2) Moins d’oscillations possibles dans la bande => butterworth
 
 [n_butt,Wp_butt] = buttord(Wp,Ws,Rp,Rs);
-[z_butt,p_butt,k_butt] = butter(n_butt,Wp_butt);
 [b_butt,a_butt] = butter(n_butt,Wp_butt);
-sys_butt = tf(b_butt,a_butt);
-sos_butt = zp2sos(z_butt,p_butt,k_butt);
+
+%% Affichage lieux de bode maison
+freqz_maison(b_elli,a_elli,10000,fe);
+
+freqz_maison(b_butt,a_butt,fe,fe);
+
+% Vérification 
+figure 
+freqz(sos_elli,fe,fe)
+
+figure
+freqz(b_butt,a_butt,fe,fe)
 
 %% Déterminer le filtre butterworth par transformation bilinéaire
 clc
