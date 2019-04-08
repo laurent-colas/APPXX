@@ -162,5 +162,36 @@ pause(10)
 
 %2)
 
+%% Déterminer le filtre butterworth par transformation bilinéaire
+clc
+clearvars
+close all
 
+fe = 16e3;
+wc_ini = 2*pi*2000;
+wc = 2.*fe.*tan(wc_ini./(2.*fe));
+T = 1/fe;
 
+% En suivant les équations mathématiques développées à la main,
+% Vecteur a:
+a0 = 4 + 2.*sqrt(2).*wc.*T + T.^2.*wc.^2;
+a1 = -8 + 2.*T.^2.*wc.^2;
+a2 = 4 - 2.*sqrt(2).*wc.*T + T.^2.*wc.^2;
+
+a_bi = [a0,a1,a2]./a0;
+
+% Vecteur b:
+b0 = wc.^2.*T.^2;
+b1 = b0.*2;
+b2 = b0;
+
+b_bi = [b0,b1,b2]./a0;
+
+% Par la suite, on détermine avec matlab les coefficients du filtre
+[b_but,a_but] = butter(2,2000./8000);
+
+figure
+freqz(b_but,a_but)
+
+figure
+freqz(b_bi,a_bi)
