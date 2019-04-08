@@ -150,17 +150,115 @@ pause(10)
 play(son_10bd)
 pause(10)
 
-%% Réduction de bruit filtre FIR (TFSD inverse)
+%% Réduction de bruit filtre FIR (TFSD inverse) 2 filtres en cascade
+fmax = 8000;
+%1) passe-bas
+n = 1:205;
+n_negatif = -205:-1;
 
-%1)
+h_n_pb = 1/2.*sin(n.*(pi./2))./(n.*(pi./2));
+h_n0_pb = 1/2;
+h_negatif_pb = 1/2*sin(n_negatif.*(pi./2))./(n_negatif.*(pi./2));
+h_n_pb = [h_negatif_pb h_n0_pb h_n_pb];
 
-%2)
+h_n_ph = -sin(0.11781.*n)./(pi.*n);
+h_n0_ph = 0.96249;
+h_negatif_ph = -sin(0.11781.*n_negatif)./(pi.*n_negatif);
+h_n_ph = [h_negatif_ph h_n0_ph h_n_ph];
+
+h_n_bande = conv(h_n_pb, h_n_ph);
+
+
+% figure
+% stem([n_negatif 0 n], h_n_pb)
+% xlim([-50 50])
+% 
+% figure
+% stem([n_negatif 0 n], h_n_ph)
+% xlim([-50 50])
+
+figure
+stem(h_n_bande)
+
+ordre = 29;
+
+indice1 = round(numel(h_n_ph)/2) - (round(ordre/2)-1);
+indice2 = round(numel(h_n_ph)/2) + (round(ordre/2)-1);
+hamming_13_ph = h_n_ph(indice1:indice2) .* hamming(ordre)';
+hamming_13_pb = h_n_pb(indice1:indice2) .* hamming(ordre)';
+X_ph = fft(hamming_13_ph);
+Xm_ph = 20*log10(abs(X_ph) ./ max(abs(X_ph)));
+X_pb = fft(hamming_13_pb);
+Xm_pb = 20*log10(abs(X_pb) ./ max(abs(X_pb)));
+
+pas_frequence = pi/((numel(X_ph)-1)/2);
+frequence = 0 : pas_frequence : pi - pas_frequence;
+
+
+indice1_passe_bande = round(numel(h_n_bande)/2) - (round(ordre/2)-1);
+indice2_passe_bande = round(numel(h_n_bande)/2) + (round(ordre/2)-1);
+hamming_pbande = h_n_bande(indice1_passe_bande:indice2_passe_bande) .* hamming(ordre)';
+
+X_pbd = fft(hamming_pbande);
+Xm_pbd = 20*log10(abs(X_pbd) ./ max(abs(X_pbd)));
+
+pas_frequence_pbande = pi/((numel(X_pbd)-1)/2);
+frequence_bande = 0 : pas_frequence_pbande : pi - pas_frequence_pbande;
+
+upper_lim = (numel(Xm_ph)-1)/2;
+
+figure
+subplot(3,1,1)
+plot(frequence, Xm_ph(1:upper_lim));
+subplot(3,1,2)
+plot(frequence, Xm_pb(1:upper_lim));
+subplot(3,1,3)
+plot(frequence_bande.*(fmax/pi), Xm_pbd(1:(end-1)/2));
+
+%% Réduction de bruit filtre FIR (TFSD inverse) filtre passe bande
+fmax = 8000;
+n = 1:205;
+n_negatif = -205:-1;
+ordre = 31;
+
+theta_0 = ((pi/2) + (3*pi)/80)/2;
+theta_1 = (pi/2) - theta_0;
+h_n_pbande = (2./(pi.*n)) .* sin(theta_1 .* n) .* cos(theta_0.*n);
+h_n0_pbande = 2*theta_1 / pi;
+h_n_pbande_negatif = (2./(pi.*n_negatif)) .* sin(theta_1 .* n_negatif) .* cos(theta_0.*n_negatif);
+
+h_n_pbande = [h_n_pbande_negatif h_n0_pbande h_n_pbande];
+
+figure
+stem(h_n_pbande)
+
+indice1_passe_bande = round(numel(h_n_pbande)/2) - (round(ordre/2)-1);
+indice2_passe_bande = round(numel(h_n_pbande)/2) + (round(ordre/2)-1);
+hamming_pbande = h_n_pbande(indice1_passe_bande:indice2_passe_bande) .* hamming(ordre)';
+
+X_pbande = fft(hamming_pbande);
+Xm_pbande = 20*log10(abs(X_pbande) ./ max(abs(X_pbande)));
+
+pas_frequence_pbande = pi/((numel(X_pbande)-1)/2);
+frequence_bande = 0 : pas_frequence_pbande : pi - pas_frequence_pbande;
+
+upper_lim = (numel(Xm_pbande)-1)/2;
+
+figure
+% subplot(3,1,1)
+% plot(frequence, Xm_ph(1:upper_lim));
+% subplot(3,1,2)
+% plot(frequence, Xm_pb(1:upper_lim));
+% subplot(3,1,3)
+plot(frequence_bande.*(fmax/pi), Xm_pbande(1:(end-1)/2));
+
 
 %% Réduction de bruit filtre IIR
 
 %1)
 
 %2)
+
 
 %% Déterminer le filtre butterworth par transformation bilinéaire
 clc
