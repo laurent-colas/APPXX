@@ -53,15 +53,27 @@ parole_estime = filter(h_opt,[1,0],parole_emise);
 
 err_parole = sum((parole_captee - parole_estime).^2)
 
+T = 1/Fs;
+
+t = 0:T:(T*numel(parole_captee))-T;
+
 figure 
-plot(parole_captee)
+plot(t,parole_captee)
 hold on 
-plot(parole_estime)
-plot(abs(parole_captee - parole_estime).^2)
+plot(t,parole_estime)
+plot(t,abs(parole_captee - parole_estime).^2)
 grid on 
 grid minor
 legend('parole captee','parole estime','|Erreur^2|')
+xlabel('time (s)')
+ylabel('Amplitude')
 
+parole_estime_ply = audioplayer(parole_estime,Fs);
+parole_captee_ply = audioplayer(parole_captee,Fs);
+
+play(parole_estime_ply)
+pause(10)
+play(parole_captee_ply)
 
 
 %% Changement de cadence
@@ -91,6 +103,7 @@ player_parole_propre = audioplayer(parole_propre,12000);
 player_new_SR = audioplayer(y,16000);
 
 play(player_new_SR)
+pause(10)
 play(player_parole_propre)
 %% Ajout de bruit
 
@@ -158,9 +171,25 @@ pause(10)
 
 %% Réduction de bruit filtre IIR
 
-%1)
+%1) Ordre le plus petit possible pour rencontrer les tolérances => elliptique
 
-%2)
+fe = 16000;
+Wp = [300 4000]/(fe/2);
+Ws = [150 5000]/(fe/2);
+Rp = 0.5;
+Rs = 40;
 
+[n_elli,Wp_elli] = ellipord(Wp,Ws,Rp,Rs);
+[z_elli,p_elli,k_elli] = ellip(n_elli,Rp,Rs,Wp_elli);
+[b_elli,a_elli] = ellip(n_elli,Rp,Rs,Wp_elli);
+sos_elli = zp2sos(z_elli,p_elli,k_elli);
+
+%2) Moins d’oscillations possibles dans la bande => buttord
+
+[n_butt,Wp_butt] = buttord(Wp,Ws,Rp,Rs);
+[z_butt,p_butt,k_butt] = butter(n_butt,Wp_butt);
+[b_butt,a_butt] = butter(n_butt,Wp_butt);
+sys_butt = tf(b_butt,a_butt);
+sos_butt = zp2sos(z_butt,p_butt,k_butt);
 
 
