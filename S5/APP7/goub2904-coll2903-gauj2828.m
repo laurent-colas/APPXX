@@ -169,14 +169,6 @@ h_n_ph = [h_negatif_ph h_n0_ph h_n_ph];
 h_n_bande = conv(h_n_pb, h_n_ph);
 
 
-% figure
-% stem([n_negatif 0 n], h_n_pb)
-% xlim([-50 50])
-% 
-% figure
-% stem([n_negatif 0 n], h_n_ph)
-% xlim([-50 50])
-
 figure
 stem(h_n_bande)
 
@@ -245,11 +237,6 @@ frequence_bande = 0 : pas_frequence_pbande : pi - pas_frequence_pbande;
 upper_lim = (numel(Xm_pbande)-1)/2;
 
 figure
-% subplot(3,1,1)
-% plot(frequence, Xm_ph(1:upper_lim));
-% subplot(3,1,2)
-% plot(frequence, Xm_pb(1:upper_lim));
-% subplot(3,1,3)
 plot(frequence_bande.*(fmax/pi), Xm_pbande(1:(end-1)/2));
 
 
