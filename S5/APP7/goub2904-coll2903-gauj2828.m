@@ -272,13 +272,13 @@ Rs = 40;
 [b_butt,a_butt] = butter(n_butt,Wp_butt);
 
 %% Affichage lieux de bode maison
-freqz_maison(b_elli,a_elli,10000,fe);
+freqz_maison(b_elli,a_elli,fe,fe);
 
 freqz_maison(b_butt,a_butt,fe,fe);
 
 % Vérification 
 figure 
-freqz(sos_elli,fe,fe)
+freqz(b_elli,a_elli,fe,fe)
 
 figure
 freqz(b_butt,a_butt,fe,fe)
