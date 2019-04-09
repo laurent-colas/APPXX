@@ -11,21 +11,24 @@
 
 function freqz_maison(b,a,N,fe)
 
-if numel(a) == 1 
-    if a == 1
-        a = ones(1,numel(b));
-    end
-end
-
 % Données de bases
 n = 1:numel(b);
 df = pi/N;
 f = 0:df:pi-df;
 
 % Réponse frequeciel
-for i = 1:numel(f)
-    e = exp(-1j.*n.*f(i));
-    H(i) = sum(e.*b)/sum(e.*a);
+if numel(a) == 1 
+    if a == 1
+        for i = 1:numel(f)
+            e = exp(-1j.*n.*f(i));
+            H(i) = sum(e.*b);
+        end
+    end
+else
+    for i = 1:numel(f)
+        e = exp(-1j.*n.*f(i));
+        H(i) = sum(e.*b)/sum(e.*a);
+    end
 end
 
 Hm = abs(H); % Magnitude
