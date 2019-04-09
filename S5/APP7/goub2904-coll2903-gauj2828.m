@@ -183,12 +183,34 @@ h_n_ph = [h_negatif_ph h_n0_ph h_n_ph];
 
 % Convolution des deux filtres
 h_n_bande = conv(h_n_pb, h_n_ph);
+n_negatif_bande = -410:-1;
+n_bande = 1:410;
 
 figure
-stem(h_n_bande)
+subplot(2,1,1)
+plot([n_negatif 0 n], h_n_pb)
+title('Réponse impulsionnelle du filtre passe bas')
+ylabel('Amplitude')
+xlabel('Échantillon (n)')
+grid on
+xlim([-150 150])
+
+subplot(2,1,2)
+plot([n_negatif 0 n], h_n_ph)
+title('Réponse impulsionnelle du filtre passe haut')
+ylabel('Amplitude')
+xlabel('Échantillon (n)')
+grid on
+xlim([-150 150])
+
+figure('NAME','Réponse impulsionnelle du filtre passe-bande convoluer')
+plot([n_negatif_bande 0 n_bande], h_n_bande)
+ylabel('Amplitude')
+xlabel('Échantillon (n)')
+xlim([-200 200])
 
 % estimation de l'ordre
-ordre = 29;
+ordre = 145;
 
 % indice pour fenetrage des filtres passe haut et bas 
 indice1 = round(numel(h_n_ph)/2) - (round(ordre/2)-1);
@@ -225,21 +247,35 @@ frequence_bande = 0 : pas_frequence_pbande : pi - pas_frequence_pbande;
 upper_lim = (numel(Xm_ph)-1)/2;
 
 figure
-subplot(3,1,1)
-plot(frequence, Xm_ph(1:upper_lim));
-subplot(3,1,2)
-plot(frequence, Xm_pb(1:upper_lim));
-subplot(3,1,3)
-plot(frequence_bande.*(fmax/pi), Xm_pbd(1:(end-1)/2));
+subplot(2,1,1)
+hold on
+plot(frequence.*(fmax/pi), Xm_ph(1:upper_lim))
+plot(frequence.*(fmax/pi), Xm_pb(1:upper_lim))
+hold off
+title('Magnitude du filtre passe-haut et passe-bas')
+ylabel('Magnitude (dB)')
+xlabel('Fréquence (Hz)')
+grid on
+ylim([-80 10])
+legend('Magnitude passe-haut', 'Magnitude passe-bas')
+
+subplot(2,1,2)
+plot(frequence_bande.*(fmax/pi), Xm_pbd(1:(end-1)/2))
+title('Magnitude du filtre passe-bande convoluer')
+ylabel('Magnitude (dB)')
+xlabel('Fréquence (Hz)')
+grid on
+ylim([-80 10])
+
 
 %% Réduction de bruit filtre FIR (TFSD inverse) filtre passe bande
 fmax = 8000;
 n = 1:205;
 n_negatif = -205:-1;
 
-ordre = 31;
+ordre = 145;
 
-% Angle imporant
+% Angle important
 theta_0 = ((pi/2) + (3*pi)/80)/2;
 theta_1 = (pi/2) - theta_0;
 
@@ -249,8 +285,13 @@ h_n0_pbande = 2*theta_1 / pi;
 h_n_pbande_negatif = (2./(pi.*n_negatif)) .* sin(theta_1 .* n_negatif) .* cos(theta_0.*n_negatif);
 h_n_pbande = [h_n_pbande_negatif h_n0_pbande h_n_pbande];
 
-figure
-stem(h_n_pbande)
+
+figure('NAME','Réponse impulsionnelle du filtre passe-bande 2')
+plot([n_negatif 0 n], h_n_pbande)
+ylabel('Amplitude')
+xlabel('Échantillon (n)')
+xlim([-200 200])
+
 
 % indice pour fenetrage du filtre passe bande
 indice1_passe_bande = round(numel(h_n_pbande)/2) - (round(ordre/2)-1);
@@ -264,21 +305,24 @@ Xm_pbande = 20*log10(abs(X_pbande) ./ max(abs(X_pbande)));
 
 % frequence pour lieu de bode
 pas_frequence_pbande = pi/((numel(X_pbande)-1)/2);
-frequence_bande = 0 : pas_frequence_pbande : pi - pas_frequence_pbande;
+frequence_bande2 = 0 : pas_frequence_pbande : pi - pas_frequence_pbande;
 
 upper_lim = (numel(Xm_pbande)-1)/2;
 
 figure
-plot(frequence_bande.*(fmax/pi), Xm_pbande(1:(end-1)/2));
+hold on
+plot(frequence_bande2.*(fmax/pi), Xm_pbande(1:(end-1)/2));
+hold off
+title('Magnitude du filtre passe-bande')
+ylabel('Magnitude (dB)')
+xlabel('Fréquence (Hz)')
+grid on
+ylim([-100 10])
 
 
 % Filtre FIR avec fir1
-b = fir1(ordre, [0.0375 1/2], 'bandpass');
-figure
-freqz(b,1,512)
-
-a = ones(1,length(b))
-freqz_maison(b,a,16000,16000)
+b = fir1((ordre-1)/2, [0.0375 1/2], 'bandpass');
+freqz_maison(b,1,16000,16000)
 
 %% Réduction de bruit filtre IIR
 
