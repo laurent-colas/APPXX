@@ -1,10 +1,10 @@
 %   Function prototype:
-%       [Xm Xp f] = myfft(b,a,fe)
+%       [Xm Xp f] = myfft(b,a,N,fe)
 %   Input:
 %       1) b  : numérateur
 %       2) a  : dénominateur
-%       3) fs : fréquence d'échantillonage
-%       4) fs : Nb de points à afficher
+%       3) N : Nb de points à afficher
+%       4) fs : fréquence d'échantillonage
 
 %   Output:
 %       1) Affichage d'un lieu de bode
@@ -12,7 +12,7 @@
 function freqz_maison(b,a,N,fe)
 
 % Données de bases
-n = 1:numel(a);
+n = 1:numel(b);
 df = pi/N;
 f = 0:df:pi-df;
 
@@ -40,6 +40,6 @@ xlabel('Fréquence (Hz)')
 grid on 
 subplot(2,1,2)
 plot(f,Hp)
-ylabel('Phase (degré)')
+ylabel('Phase (degrees)')
 xlabel('Fréquence (Hz)')
 grid on 
