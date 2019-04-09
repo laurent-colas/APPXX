@@ -283,6 +283,10 @@ freqz(b_elli,a_elli,fe,fe)
 figure
 freqz(b_butt,a_butt,fe,fe)
 
+%% Démo supression de bruit 
+
+
+
 %% Déterminer le filtre butterworth par transformation bilinéaire
 clc
 clearvars
@@ -311,8 +315,8 @@ b_bi = [b0,b1,b2]./a0;
 % Par la suite, on détermine avec matlab les coefficients du filtre
 [b_but,a_but] = butter(2,2000./8000);
 
-figure
-freqz(b_but,a_but)
+
+freqz_maison(b_but,a_but,16000,16000)
 
 figure
-freqz(b_bi,a_bi)
+freqz(b_bi,a_bi,16000,16000)
