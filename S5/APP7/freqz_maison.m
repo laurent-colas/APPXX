@@ -11,6 +11,12 @@
 
 function freqz_maison(b,a,N,fe)
 
+if numel(a) == 1 
+    if a == 1
+        a = ones(1,numel(b));
+    end
+end
+
 % Données de bases
 n = 1:numel(b);
 df = pi/N;
