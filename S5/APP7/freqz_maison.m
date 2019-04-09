@@ -43,12 +43,12 @@ f = 0:df:(fe/2)-df;
 % Affichage
 figure('NAME','Lieu de bode maison')
 subplot(2,1,1)
-plot(f,Hm)
+plot(f,Hm,'r')
 ylabel('Magnitude (dB)')
 xlabel('Fréquence (Hz)')
 grid on 
 subplot(2,1,2)
-plot(f,Hp)
+plot(f,Hp,'r')
 ylabel('Phase (degrees)')
 xlabel('Fréquence (Hz)')
 grid on 
