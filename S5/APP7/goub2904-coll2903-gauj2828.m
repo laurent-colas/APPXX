@@ -212,22 +212,22 @@ xlim([-200 200])
 % estimation de l'ordre
 ordre = 145;
 
-% indice pour fenetrage des filtres passe haut et bas 
-indice1 = round(numel(h_n_ph)/2) - (round(ordre/2)-1);
-indice2 = round(numel(h_n_ph)/2) + (round(ordre/2)-1);
-% fenetrage de hamming sur reponse impulsionnelle des filtres
-hamming_13_ph = h_n_ph(indice1:indice2) .* hamming(ordre)';
-hamming_13_pb = h_n_pb(indice1:indice2) .* hamming(ordre)';
-% TFSD passe haut
-X_ph = fft(hamming_13_ph);
-Xm_ph = 20*log10(abs(X_ph) ./ max(abs(X_ph)));
-% TFSD passe haut
-X_pb = fft(hamming_13_pb);
-Xm_pb = 20*log10(abs(X_pb) ./ max(abs(X_pb)));
-
-% frequence pour graphique de bode
-pas_frequence = pi/((numel(X_ph)-1)/2);
-frequence = 0 : pas_frequence : pi - pas_frequence;
+% % indice pour fenetrage des filtres passe haut et bas 
+% indice1 = round(numel(h_n_ph)/2) - (round(ordre/2)-1);
+% indice2 = round(numel(h_n_ph)/2) + (round(ordre/2)-1);
+% % fenetrage de hamming sur reponse impulsionnelle des filtres
+% hamming_13_ph = h_n_ph(indice1:indice2) .* hamming(ordre)';
+% hamming_13_pb = h_n_pb(indice1:indice2) .* hamming(ordre)';
+% % TFSD passe haut
+% X_ph = fft(hamming_13_ph);
+% Xm_ph = 20*log10(abs(X_ph) ./ max(abs(X_ph)));
+% % TFSD passe haut
+% X_pb = fft(hamming_13_pb);
+% Xm_pb = 20*log10(abs(X_pb) ./ max(abs(X_pb)));
+% 
+% % frequence pour graphique de bode
+% pas_frequence = pi/((numel(X_ph)-1)/2);
+% frequence = 0 : pas_frequence : pi - pas_frequence;
 
 
 % indice pour fenetrage du filtre passe bande
