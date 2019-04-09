@@ -310,9 +310,3 @@ b_bi = [b0,b1,b2]./a0;
 
 % Par la suite, on détermine avec matlab les coefficients du filtre
 [b_but,a_but] = butter(2,2000./8000);
-
-figure
-freqz(b_but,a_but)
-
-figure
-freqz(b_bi,a_bi)
