@@ -212,22 +212,22 @@ xlim([-200 200])
 % estimation de l'ordre
 ordre = 145;
 
-% % indice pour fenetrage des filtres passe haut et bas 
-% indice1 = round(numel(h_n_ph)/2) - (round(ordre/2)-1);
-% indice2 = round(numel(h_n_ph)/2) + (round(ordre/2)-1);
-% % fenetrage de hamming sur reponse impulsionnelle des filtres
-% hamming_13_ph = h_n_ph(indice1:indice2) .* hamming(ordre)';
-% hamming_13_pb = h_n_pb(indice1:indice2) .* hamming(ordre)';
-% % TFSD passe haut
-% X_ph = fft(hamming_13_ph);
-% Xm_ph = 20*log10(abs(X_ph) ./ max(abs(X_ph)));
-% % TFSD passe haut
-% X_pb = fft(hamming_13_pb);
-% Xm_pb = 20*log10(abs(X_pb) ./ max(abs(X_pb)));
-% 
-% % frequence pour graphique de bode
-% pas_frequence = pi/((numel(X_ph)-1)/2);
-% frequence = 0 : pas_frequence : pi - pas_frequence;
+% indice pour fenetrage des filtres passe haut et bas 
+indice1 = round(numel(h_n_ph)/2) - (round(ordre/2)-1);
+indice2 = round(numel(h_n_ph)/2) + (round(ordre/2)-1);
+% fenetrage de hamming sur reponse impulsionnelle des filtres
+hamming_13_ph = h_n_ph(indice1:indice2) .* hamming(ordre)';
+hamming_13_pb = h_n_pb(indice1:indice2) .* hamming(ordre)';
+% TFSD passe haut
+X_ph = fft(hamming_13_ph);
+Xm_ph = 20*log10(abs(X_ph) ./ max(abs(X_ph)));
+% TFSD passe haut
+X_pb = fft(hamming_13_pb);
+Xm_pb = 20*log10(abs(X_pb) ./ max(abs(X_pb)));
+
+% frequence pour graphique de bode
+pas_frequence = pi/((numel(X_ph)-1)/2);
+frequence = 0 : pas_frequence : pi - pas_frequence;
 
 
 % indice pour fenetrage du filtre passe bande
@@ -324,6 +324,57 @@ ylim([-100 10])
 b = fir1((ordre-1)/2, [0.0375 1/2], 'bandpass');
 freqz_maison(b,1,16000,16000)
 
+%% Démo filtrage du bruit par filtre FIR
+
+% Filtrage
+fe = 16000;
+signal_filtre_FIR = filter(h_n_pbande,1,s_10);
+dt = 1/fe;
+t = 0:dt:(numel(s_10)*dt)-dt;
+t = t';
+
+% Affichage temporel 
+figure 
+plot(t,s_10)
+hold on 
+plot(t,signal_filtre_FIR)
+grid on 
+grid minor
+legend('Signal RSB = 10 dB ','Signal filtré (FIR ordre 145)')
+xlabel('time (s)')
+ylabel('Amplitude')
+
+% Affichage frequenciel 
+df = (fe/2)/numel(s_10);
+f = 0:df:(fe/2)-df;
+Xbruit = fft(s_10,2*numel(s_10));
+Xbruit = Xbruit(1:end/2);
+Xmbruit = abs(Xbruit);
+Xmbruit = 20*log10(Xmbruit./max(abs(Xmbruit)));
+Xpbruit = angle(Xbruit);
+
+Xfiltre = fft(signal_filtre_FIR,2*numel(s_10));
+Xfiltre = Xfiltre(1:end/2);
+Xmfiltre = abs(Xfiltre);
+Xmfiltre = 20*log10(Xmfiltre./max(abs(Xmfiltre)));
+Xpfiltre = angle(Xfiltre);
+
+figure
+plot(f,Xmbruit)
+hold on 
+plot(f,Xmfiltre)
+grid on 
+grid minor
+legend('Signal RSB = 10 dB ','Signal filtré (FIR ordre 145)')
+ylabel('Magnitude (dB)')
+xlabel('Frequence (Hz)')
+
+% verification audio 
+signal_filtre_FIR_player = audioplayer(signal_filtre_FIR,fe);
+play(son_10bd)
+pause(10)
+play(signal_filtre_FIR_player)
+
 %% Réduction de bruit filtre IIR
 
 %1) Ordre le plus petit possible pour rencontrer les tolérances => elliptique
@@ -354,6 +405,56 @@ freqz(b_elli,a_elli,fe,fe)
 
 figure
 freqz(b_butt,a_butt,fe,fe)
+
+%% Démo filtrage du bruit par filtre IIR
+
+% Filtrage
+signal_filtre_IIR = filter(h_n_pbande,1,s_10);
+dt = 1/fe;
+t = 0:dt:(numel(s_10)*dt)-dt;
+t = t';
+
+% Affichage temporel 
+figure 
+plot(t,s_10)
+hold on 
+plot(t,signal_filtre_IIR)
+grid on 
+grid minor
+legend('Signal RSB = 10 dB ','Signal filtré (IIR)')
+xlabel('time (s)')
+ylabel('Amplitude')
+
+% Affichage frequenciel 
+df = (fe/2)/numel(s_10);
+f = 0:df:(fe/2)-df;
+Xbruit = fft(s_10,2*numel(s_10));
+Xbruit = Xbruit(1:end/2);
+Xmbruit = abs(Xbruit);
+Xmbruit = 20*log10(Xmbruit./max(abs(Xmbruit)));
+Xpbruit = angle(Xbruit);
+
+Xfiltre = fft(signal_filtre_IIR,2*numel(s_10));
+Xfiltre = Xfiltre(1:end/2);
+Xmfiltre = abs(Xfiltre);
+Xmfiltre = 20*log10(Xmfiltre./max(abs(Xmfiltre)));
+Xpfiltre = angle(Xfiltre);
+
+figure
+plot(f,Xmbruit)
+hold on 
+plot(f,Xmfiltre)
+grid on 
+grid minor
+legend('Signal RSB = 10 dB ','Signal filtré (IIR)')
+ylabel('Magnitude (dB)')
+xlabel('Frequence (Hz)')
+
+% verification audio 
+signal_filtre_IIR_player = audioplayer(signal_filtre_IIR,fe);
+play(son_10bd)
+pause(10)
+play(signal_filtre_IIR_player)
 
 %% Déterminer le filtre butterworth par transformation bilinéaire
 clc

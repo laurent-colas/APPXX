@@ -2,7 +2,7 @@
 %       [Xm Xp f] = myfft(b,a,N,fe)
 %   Input:
 %       1) b  : numérateur
-%       2) a  : dénominateur
+%       2) a  : dénominateur (Mettre à 1 s'il n'y a pas de dénominateur)
 %       3) N : Nb de points à afficher
 %       4) fs : fréquence d'échantillonage
 
