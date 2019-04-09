@@ -169,46 +169,59 @@ fmax = 8000;
 n = 1:205;
 n_negatif = -205:-1;
 
+% Réponse imputlsionnelle filtre passe bas
 h_n_pb = 1/2.*sin(n.*(pi./2))./(n.*(pi./2));
 h_n0_pb = 1/2;
 h_negatif_pb = 1/2*sin(n_negatif.*(pi./2))./(n_negatif.*(pi./2));
 h_n_pb = [h_negatif_pb h_n0_pb h_n_pb];
 
+%Reponse impulsionelle filtre passe haut
 h_n_ph = -sin(0.11781.*n)./(pi.*n);
 h_n0_ph = 0.96249;
 h_negatif_ph = -sin(0.11781.*n_negatif)./(pi.*n_negatif);
 h_n_ph = [h_negatif_ph h_n0_ph h_n_ph];
 
+% Convolution des deux filtres
 h_n_bande = conv(h_n_pb, h_n_ph);
 
 figure
 stem(h_n_bande)
 
+% estimation de l'ordre
 ordre = 29;
 
+% indice pour fenetrage des filtres passe haut et bas 
 indice1 = round(numel(h_n_ph)/2) - (round(ordre/2)-1);
 indice2 = round(numel(h_n_ph)/2) + (round(ordre/2)-1);
+% fenetrage de hamming sur reponse impulsionnelle des filtres
 hamming_13_ph = h_n_ph(indice1:indice2) .* hamming(ordre)';
 hamming_13_pb = h_n_pb(indice1:indice2) .* hamming(ordre)';
+% TFSD passe haut
 X_ph = fft(hamming_13_ph);
 Xm_ph = 20*log10(abs(X_ph) ./ max(abs(X_ph)));
+% TFSD passe haut
 X_pb = fft(hamming_13_pb);
 Xm_pb = 20*log10(abs(X_pb) ./ max(abs(X_pb)));
 
+% frequence pour graphique de bode
 pas_frequence = pi/((numel(X_ph)-1)/2);
 frequence = 0 : pas_frequence : pi - pas_frequence;
 
 
+% indice pour fenetrage du filtre passe bande
 indice1_passe_bande = round(numel(h_n_bande)/2) - (round(ordre/2)-1);
 indice2_passe_bande = round(numel(h_n_bande)/2) + (round(ordre/2)-1);
+% fenetrage de hamming sur reponse impulsionnelle du passe bande
 hamming_pbande = h_n_bande(indice1_passe_bande:indice2_passe_bande) .* hamming(ordre)';
-
+% TFSD passe bande
 X_pbd = fft(hamming_pbande);
 Xm_pbd = 20*log10(abs(X_pbd) ./ max(abs(X_pbd)));
 
+% frequence filtre passe bande pour graphique de bode
 pas_frequence_pbande = pi/((numel(X_pbd)-1)/2);
 frequence_bande = 0 : pas_frequence_pbande : pi - pas_frequence_pbande;
 
+% indice de pour premier moitié du filtre
 upper_lim = (numel(Xm_ph)-1)/2;
 
 figure
@@ -223,26 +236,33 @@ plot(frequence_bande.*(fmax/pi), Xm_pbd(1:(end-1)/2));
 fmax = 8000;
 n = 1:205;
 n_negatif = -205:-1;
+
 ordre = 31;
 
+% Angle imporant
 theta_0 = ((pi/2) + (3*pi)/80)/2;
 theta_1 = (pi/2) - theta_0;
+
+%Reponse impulsionelle filtre passe bande
 h_n_pbande = (2./(pi.*n)) .* sin(theta_1 .* n) .* cos(theta_0.*n);
 h_n0_pbande = 2*theta_1 / pi;
 h_n_pbande_negatif = (2./(pi.*n_negatif)) .* sin(theta_1 .* n_negatif) .* cos(theta_0.*n_negatif);
-
 h_n_pbande = [h_n_pbande_negatif h_n0_pbande h_n_pbande];
 
 figure
 stem(h_n_pbande)
 
+% indice pour fenetrage du filtre passe bande
 indice1_passe_bande = round(numel(h_n_pbande)/2) - (round(ordre/2)-1);
 indice2_passe_bande = round(numel(h_n_pbande)/2) + (round(ordre/2)-1);
+% fenetrage du passe bande
 hamming_pbande = h_n_pbande(indice1_passe_bande:indice2_passe_bande) .* hamming(ordre)';
 
+% TFSD
 X_pbande = fft(hamming_pbande);
 Xm_pbande = 20*log10(abs(X_pbande) ./ max(abs(X_pbande)));
 
+% frequence pour lieu de bode
 pas_frequence_pbande = pi/((numel(X_pbande)-1)/2);
 frequence_bande = 0 : pas_frequence_pbande : pi - pas_frequence_pbande;
 
@@ -251,6 +271,14 @@ upper_lim = (numel(Xm_pbande)-1)/2;
 figure
 plot(frequence_bande.*(fmax/pi), Xm_pbande(1:(end-1)/2));
 
+
+% Filtre FIR avec fir1
+b = fir1(ordre, [0.0375 1/2], 'bandpass');
+figure
+freqz(b,1,512)
+
+a = ones(1,length(b))
+freqz_maison(b,a,16000,16000)
 
 %% Réduction de bruit filtre IIR
 
