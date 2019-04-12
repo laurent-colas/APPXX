@@ -32,7 +32,7 @@ else
 end
 
 Hm = abs(H); % Magnitude
-Hm = db(Hm);
+Hm = 20*log10(Hm./max(abs(Hm)));
 Hp = unwrap(angle(H));
 Hp = rad2deg(Hp);
 

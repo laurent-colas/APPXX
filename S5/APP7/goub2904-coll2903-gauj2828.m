@@ -71,9 +71,9 @@ ylabel('Amplitude')
 parole_estime_ply = audioplayer(parole_estime,Fs);
 parole_captee_ply = audioplayer(parole_captee,Fs);
 
-play(parole_estime_ply)
-pause(10)
-play(parole_captee_ply)
+% play(parole_estime_ply)
+% pause(10)
+% play(parole_captee_ply)
 
 
 %% Changement de cadence
@@ -154,14 +154,14 @@ son_0bd = audioplayer(s_0,fs);
 son_5bd = audioplayer(s_5,fs);
 son_10bd = audioplayer(s_10,fs);
 
-play(player_new_SR)
-pause(10)
-play(son_0bd)
-pause(10)
+% play(player_new_SR)
+% pause(10)
+% play(son_0bd)
+% pause(10)
 play(son_5bd)
-pause(10)
-play(son_10bd)
-pause(10)
+% pause(10)
+% play(son_10bd)
+% pause(10)
 
 %% Réduction de bruit filtre FIR (TFSD inverse) 2 filtres en cascade
 fmax = 8000;
@@ -328,14 +328,14 @@ freqz_maison(b,1,16000,16000)
 
 % Filtrage
 fe = 16000;
-signal_filtre_FIR = filter(h_n_pbande,1,s_10);
+signal_filtre_FIR = filter(hamming_pbande,1,s_5);
 dt = 1/fe;
-t = 0:dt:(numel(s_10)*dt)-dt;
+t = 0:dt:(numel(s_5)*dt)-dt;
 t = t';
 
 % Affichage temporel 
 figure 
-plot(t,s_10)
+plot(t,s_5)
 hold on 
 plot(t,signal_filtre_FIR)
 grid on 
@@ -353,7 +353,7 @@ Xmbruit = abs(Xbruit);
 Xmbruit = 20*log10(Xmbruit./max(abs(Xmbruit)));
 Xpbruit = angle(Xbruit);
 
-Xfiltre = fft(signal_filtre_FIR,2*numel(s_10));
+Xfiltre = fft(signal_filtre_FIR,2*numel(s_5));
 Xfiltre = Xfiltre(1:end/2);
 Xmfiltre = abs(Xfiltre);
 Xmfiltre = 20*log10(Xmfiltre./max(abs(Xmfiltre)));
@@ -371,8 +371,8 @@ xlabel('Frequence (Hz)')
 
 % verification audio 
 signal_filtre_FIR_player = audioplayer(signal_filtre_FIR,fe);
-play(son_10bd)
-pause(10)
+% play(son_10bd)
+% pause(10)
 play(signal_filtre_FIR_player)
 
 %% Réduction de bruit filtre IIR
@@ -388,6 +388,11 @@ Rs = 40;
 [n_elli,Wp_elli] = ellipord(Wp,Ws,Rp,Rs);
 [b_elli,a_elli] = ellip(n_elli,Rp,Rs,Wp_elli);
 
+fe = 16000;
+Wp = [300 4000]/(fe/2);
+Ws = [150 5000]/(fe/2);
+Rp = 0.5;
+Rs = 40;
 
 %2) Moins d’oscillations possibles dans la bande => butterworth
 
@@ -398,13 +403,6 @@ Rs = 40;
 freqz_maison(b_elli,a_elli,fe,fe);
 
 freqz_maison(b_butt,a_butt,fe,fe);
-
-% Vérification 
-figure 
-freqz(b_elli,a_elli,fe,fe)
-
-figure
-freqz(b_butt,a_butt,fe,fe)
 
 %% Démo filtrage du bruit par filtre IIR
 
